@@ -9,7 +9,7 @@ type LayoutProps = {
 
 function UtilityLayout({ title, description, children }: LayoutProps) {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-950">
+    <main className="flex min-h-screen items-center justify-center px-6 py-16">
       <div className="max-w-2xl">
         <PageShell title={title} description={description}>
           {children}

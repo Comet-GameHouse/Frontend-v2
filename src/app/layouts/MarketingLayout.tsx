@@ -9,7 +9,7 @@ type LayoutProps = {
 
 function MarketingLayout({ title, description, children }: LayoutProps) {
   return (
-    <main className="min-h-screen bg-slate-950">
+    <main className="min-h-screen">
       <PageShell title={title} description={description}>
         {children}
       </PageShell>

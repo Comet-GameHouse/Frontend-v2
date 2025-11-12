@@ -1,10 +1,15 @@
-import { useCallback, useMemo, useState, type ReactNode } from 'react'
+import {
+  useCallback,
+  useMemo,
+  useState,
+  type ReactNode,
+} from 'react'
 import NotificationContext, {
   type NotificationContextValue,
   type NotifyOptions,
 } from './NotificationContext'
-import NotificationContainer from '@components/notifications/NotificationContainer'
-import type { NotificationItem } from '@types'
+import { NotificationContainer } from '@components/notifications'
+import type { NotificationItem } from '@app-types'
 
 type NotificationProviderProps = {
   children: ReactNode

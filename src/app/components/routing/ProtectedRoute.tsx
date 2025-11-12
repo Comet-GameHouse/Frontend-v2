@@ -1,13 +1,13 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '@hooks'
-import type { Role } from '@types/auth'
+import type { Role } from '@app-types'
 
 type ProtectedRouteProps = {
   redirectTo?: string
   allowedRoles?: Role[]
 }
 
-function ProtectedRoute({ redirectTo = '/signin', allowedRoles }: ProtectedRouteProps) {
+function ProtectedRoute({ redirectTo = '/auth/signin', allowedRoles }: ProtectedRouteProps) {
   const { isAuthenticated, user } = useAuth()
   const location = useLocation()
 

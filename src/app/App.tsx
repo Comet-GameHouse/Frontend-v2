@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import AOS from 'aos'
+import { CosmicBackground } from '@components'
 import { AuthProvider, NotificationProvider } from '@providers'
 import { AppRouter } from '@router'
 
@@ -8,16 +9,22 @@ function App() {
     AOS.init({
       duration: 500,
       easing: 'ease-out',
-      once: false,
+      once: true,
+      offset: -9999,
     })
   }, [])
 
   return (
-    <NotificationProvider>
-      <AuthProvider>
-        <AppRouter />
-      </AuthProvider>
-    </NotificationProvider>
+    <AuthProvider>
+      <NotificationProvider>
+        <div className="relative isolate min-h-screen overflow-hidden bg-slate-950 text-slate-100">
+          <CosmicBackground className="z-0" />
+          <div className="relative z-10">
+            <AppRouter />
+          </div>
+        </div>
+      </NotificationProvider>
+    </AuthProvider>
   )
 }
 

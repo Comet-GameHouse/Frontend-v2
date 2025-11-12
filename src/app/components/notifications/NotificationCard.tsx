@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import type { NotificationIntent, NotificationItem } from '@types'
+import type { NotificationIntent, NotificationItem } from '@app-types'
+import cn from '@lib/cn'
 
 type NotificationCardProps = {
   notification: NotificationItem
@@ -65,35 +66,28 @@ function NotificationCard({ notification, exiting, onDismiss }: NotificationCard
     <article
       role="status"
       aria-live="polite"
-      className={[
+      className={cn(
         'relative overflow-hidden rounded-2xl border bg-slate-950/75 px-4 py-4 transition-all duration-250 ease-out',
         'backdrop-blur-lg',
         styles.border,
         styles.glow,
         isVisible ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0',
-      ].join(' ')}
+      )}
     >
       <div
-        className={[
+        className={cn(
           'pointer-events-none absolute -left-36 top-0 h-full w-1/2 blur-3xl',
           styles.accent && `bg-gradient-to-r ${styles.accent}`,
-        ]
-          .filter(Boolean)
-          .join(' ')}
+        )}
       />
       <div className="relative flex items-start gap-3">
         <span
-          className={[
+          className={cn(
             'relative inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-950/80 text-indigo-200',
             'border border-slate-700/60 shadow-[inset_0_0_16px_rgba(148,163,184,0.18)]',
-          ].join(' ')}
+          )}
         >
-          <span
-            className={[
-              'absolute inset-0 animate-pulse rounded-2xl blur-2xl',
-              styles.rayColor,
-            ].join(' ')}
-          />
+          <span className={cn('absolute inset-0 animate-pulse rounded-2xl blur-2xl', styles.rayColor)} />
           <FontAwesomeIcon icon={iconName} className="relative h-4 w-4 text-indigo-200" />
         </span>
         <div className="flex-1">

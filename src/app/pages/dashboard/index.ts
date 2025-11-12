@@ -1,5 +1,5 @@
-export { default as DashboardPage } from './DashboardPage'
-export { default as NotificationsPage } from './NotificationsPage'
-export { default as ProfilePage } from './ProfilePage'
-export { default as SettingsPage } from './SettingsPage'
+export { default as DashboardPage } from './overview/DashboardPage'
+export { default as NotificationsPage } from './notifications/NotificationsPage'
+export { default as ProfilePage } from './profile/ProfilePage'
+export { default as SettingsPage } from './settings/SettingsPage'
 

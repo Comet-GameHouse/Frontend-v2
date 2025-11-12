@@ -12,7 +12,7 @@ function CounterCard({ count, onIncrement, onDecrement }: CounterCardProps) {
         <button
           type="button"
           onClick={onDecrement}
-          className="rounded-lg bg-slate-800 px-4 py-2 text-slate-200 transition hover:bg-slate-700"
+          className="cursor-pointer rounded-lg bg-slate-800 px-4 py-2 text-slate-200 transition hover:bg-slate-700"
         >
           -1
         </button>
@@ -20,7 +20,7 @@ function CounterCard({ count, onIncrement, onDecrement }: CounterCardProps) {
         <button
           type="button"
           onClick={onIncrement}
-          className="rounded-lg bg-indigo-500 px-4 py-2 font-medium text-slate-950 transition hover:bg-indigo-400"
+          className="cursor-pointer rounded-lg bg-indigo-500 px-4 py-2 font-medium text-slate-950 transition hover:bg-indigo-400"
         >
           +1
         </button>

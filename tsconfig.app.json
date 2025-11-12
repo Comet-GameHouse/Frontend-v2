@@ -41,8 +41,8 @@
       "@data/*": ["./src/app/data/*"],
       "@styles": ["./src/app/styles"],
       "@styles/*": ["./src/app/styles/*"],
-      "@types": ["./src/app/types"],
-      "@types/*": ["./src/app/types/*"]
+      "@app-types": ["./src/app/app-types"],
+      "@app-types/*": ["./src/app/app-types/*"]
     },
 
     /* Linting */

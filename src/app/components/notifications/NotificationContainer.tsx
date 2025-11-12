@@ -1,7 +1,7 @@
 import { createPortal } from 'react-dom'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import NotificationCard from './NotificationCard'
-import type { NotificationItem } from '@types'
+import type { NotificationItem } from '@app-types'
 
 type NotificationContainerProps = {
   notifications: NotificationItem[]

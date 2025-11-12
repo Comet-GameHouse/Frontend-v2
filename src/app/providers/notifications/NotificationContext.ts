@@ -1,6 +1,6 @@
 import type { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { createContext } from 'react'
-import type { NotificationItem, NotificationIntent, NotificationType } from '@types'
+import type { NotificationItem, NotificationIntent, NotificationType } from '@app-types'
 
 type NotifyOptions = {
   title: string

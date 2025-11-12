@@ -9,7 +9,7 @@ type LayoutProps = {
 
 function GameLayout({ title, description, children }: LayoutProps) {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+    <main className="min-h-screen">
       <PageShell title={title} description={description}>
         {children}
       </PageShell>

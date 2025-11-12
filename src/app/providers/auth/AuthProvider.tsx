@@ -1,19 +1,19 @@
 import { useCallback, useMemo, useState, type ReactNode } from 'react'
 import AuthContext from './AuthContext'
-import type { AuthContextValue, User } from '@types/auth'
+import type { AuthContextValue, User } from '@app-types/auth'
 
 type AuthProviderProps = {
   children: ReactNode
 }
 
 function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<User | null>({})
 
-  const login = useCallback((nextUser: User) => {
+  const signIn = useCallback((nextUser: User) => {
     setUser(nextUser)
   }, [])
 
-  const logout = useCallback(() => {
+  const signOut = useCallback(() => {
     setUser(null)
   }, [])
 
@@ -21,10 +21,10 @@ function AuthProvider({ children }: AuthProviderProps) {
     () => ({
       user,
       isAuthenticated: Boolean(user),
-      login,
-      logout,
+      signIn,
+      signOut,
     }),
-    [login, logout, user],
+    [signIn, signOut, user],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

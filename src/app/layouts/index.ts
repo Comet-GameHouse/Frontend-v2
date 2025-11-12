@@ -6,4 +6,5 @@ export { default as MarketingLayout } from './MarketingLayout'
 export { default as ProgressionLayout } from './ProgressionLayout'
 export { default as SupportLayout } from './SupportLayout'
 export { default as UtilityLayout } from './UtilityLayout'
+export { default as RootLayout } from './RootLayout'
 
