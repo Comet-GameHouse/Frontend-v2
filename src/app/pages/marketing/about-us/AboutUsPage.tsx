@@ -1,4 +1,3 @@
-import MarketingLayout from '@layouts/MarketingLayout'
 import { Card } from '@components/ui/Card'
 
 const VALUES = [
@@ -14,7 +13,7 @@ const MILESTONES = [
 
 function AboutUsPage() {
   return (
-    <MarketingLayout title="About Comet GameHouse" description="Meet the crew building the galaxy’s most dynamic multiplayer playground.">
+    <>
       <section className="grid gap-4 sm:grid-cols-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay="150">
         {VALUES.map(({ title, copy }, idx) => (
           <Card key={title} variant="glass" className="space-y-2" data-aos="fade-up" data-aos-duration="300" data-aos-delay={String(150 + idx * 50)}>
@@ -34,7 +33,7 @@ function AboutUsPage() {
           ))}
         </ul>
       </Card>
-    </MarketingLayout>
+    </>
   )
 }
 

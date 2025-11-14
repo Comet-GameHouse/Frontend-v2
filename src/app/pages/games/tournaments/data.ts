@@ -4,12 +4,14 @@ type TournamentEvent = {
   startsIn: string
   format: string
   slots: string
+  coinPrize?: string
 }
 
 const UPCOMING_TOURNAMENTS: TournamentEvent[] = [
   {
     title: 'Galactic Gauntlet Series',
-    prize: '¥15,000 coin pool + exclusive skins',
+    prize: 'Prize pool + exclusive skins',
+    coinPrize: '¥15,000',
     startsIn: 'Starts in 3h',
     format: 'Trios • Double elimination • Cross-region',
     slots: '32/64 squads',

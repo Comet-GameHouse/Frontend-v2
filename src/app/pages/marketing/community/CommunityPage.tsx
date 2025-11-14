@@ -1,81 +1,104 @@
-import MarketingLayout from '@layouts/MarketingLayout'
 import { Card } from '@components/ui/Card'
 import Button from '@components/ui/Button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import type { IconProp } from '@fortawesome/fontawesome-svg-core'
 
-type Crew = {
+const DISCORD_INVITE = 'https://discord.gg/cometgamehouse'
+
+type ChannelPreview = {
   name: string
-  focus: string
-  members: string
+  description: string
+  badge?: string
 }
 
-type Event = {
-  title: string
-  detail: string
+type ChannelSection = {
+  label: string
+  channels: ChannelPreview[]
 }
 
-type Channel = {
-  name: string
-  summary: string
-  icon: IconProp
-}
+const CHANNEL_SECTIONS: ChannelSection[] = [
+  {
+    label: 'Text Channels',
+    channels: [
+      { name: 'announcements', description: 'Patch drops, devstreams, and balance notes.', badge: 'NEW' },
+      { name: 'matchmaking-lfg', description: 'Queue by role, MMR, or region.' },
+      { name: 'room-builders', description: 'Share scripts, prefabs, and lighting setups.' },
+      { name: 'creator-hub', description: 'Promote streams, collabs, and highlight reels.' },
+    ],
+  },
+  {
+    label: 'Voice Lounges',
+    channels: [
+      { name: 'scrim-ready-01', description: 'Ranked squads locking strategies.' },
+      { name: 'control-ops', description: 'Arena control teams running drills.' },
+      { name: 'speedrun-lab', description: 'Velocity Rush pilots perfecting routes.' },
+      { name: 'chill-comet', description: 'Open lounge for casual runs.' },
+    ],
+  },
+]
 
-const CREWS: Crew[] = [
+const CREWS = [
   { name: 'Nebula Syndicate', focus: 'Ranked strategy scrims every weekend.', members: '2.1K members' },
   { name: 'Velocity Circuit', focus: 'Time-trial racing ladders with weekly drops.', members: '1.6K members' },
   { name: 'Aurora Forge', focus: 'Room builders sharing custom scripts and mods.', members: '980 members' },
 ]
-const EVENTS: Event[] = [
+
+const COMMUNITY_BEATS = [
   { title: 'Creator Spotlight', detail: 'Live Q&A with QuantumVex · Friday 20:00 UTC' },
-  { title: 'Community Cup', detail: 'Trios showdown · 5,000 coin prize pool · registrations open' },
+  { title: 'Community Cup', detail: 'Trios showdown · prize pool · registrations open', prizeCoins: '5,000' },
   { title: 'Workshop Live', detail: 'Learn room scripting basics with Forge mentors' },
-]
-const DISCORD_HIGHLIGHTS = [
-  'Live match-finder and LFG voice lounges',
-  'Hosted scrims, coaching pods, and VOD reviews',
-  'Creator announcements, patch previews, and drops',
-]
-const CHANNELS: Channel[] = [
-  { name: '#comet-news', summary: 'Patch notes, devstreams, and partnered drops.', icon: 'satellite' },
-  { name: '#lfg-arena', summary: 'Queue instantly with squads by rank or role.', icon: 'gamepad' },
-  { name: '#mod-support', summary: 'Moderation help, safety tools, and escalation.', icon: 'shield-halved' },
 ]
 
 function CommunityPage() {
   return (
-    <MarketingLayout title="Community Highlights" description="Discover featured creators, spotlight squads, and our brand-new Discord hub.">
-      <Card variant="gradient" className="space-y-5" data-aos="fade-up" data-aos-duration="300" data-aos-delay="150">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+    <>
+      <Card variant="gradient" className="space-y-6" data-aos="fade-up" data-aos-duration="300" data-aos-delay="150">
+        <header className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3 text-2xl font-semibold text-white">
             <FontAwesomeIcon icon={['fab', 'discord']} className="h-8 w-8" />
             <span>Join the Comet Discord</span>
           </div>
-          <Button
-            variant="primary"
-            rightIcon={['fab', 'discord']}
-            onClick={() => window.open('https://discord.gg/cometgamehouse', '_blank', 'noopener')}
-          >
-            Enter community server
+          <Button variant="primary" rightIcon={['fab', 'discord']} onClick={() => window.open(DISCORD_INVITE, '_blank', 'noopener')}>
+            Join server
           </Button>
-        </div>
-        <ul className="grid gap-3 text-sm text-slate-200 sm:grid-cols-3">
-          {DISCORD_HIGHLIGHTS.map((item, idx) => (
-            <li key={item} className="rounded-2xl border border-white/20 bg-white/10 px-4 py-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay={String(200 + idx * 50)}>
-              {item}
-            </li>
-          ))}
-        </ul>
-        <div className="grid gap-3 text-left sm:grid-cols-3">
-          {CHANNELS.map(({ name, summary, icon }, idx) => (
-            <div key={name} className="rounded-2xl border border-white/25 bg-slate-950/40 px-4 py-4" data-aos="fade-up" data-aos-duration="300" data-aos-delay={String(300 + idx * 50)}>
-              <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-white">
-                <FontAwesomeIcon icon={icon} className="h-4 w-4 text-cyan-200" />
-                <span>{name}</span>
-              </div>
-              <p className="text-xs text-slate-200">{summary}</p>
+        </header>
+
+        <div className="space-y-4 rounded-3xl border border-white/15 bg-slate-950/40 p-6 shadow-inner">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4">
+            <div>
+              <p className="text-sm font-semibold text-white">Comet GameHouse HQ</p>
+              <a href={DISCORD_INVITE} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-xs text-cyan-200 transition hover:text-cyan-100">
+                <FontAwesomeIcon icon={['fab', 'discord']} className="h-3.5 w-3.5" />
+                discord.gg/cometgamehouse
+              </a>
             </div>
-          ))}
+            <span className="inline-flex items-center gap-2 rounded-full border border-cyan-400/40 bg-cyan-400/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-cyan-100">
+              24/7 active
+            </span>
+          </div>
+
+          <div className="grid gap-5 sm:grid-cols-2">
+            {CHANNEL_SECTIONS.map((section, idx) => (
+              <div key={section.label} data-aos="fade-up" data-aos-duration="300" data-aos-delay={String(210 + idx * 60)}>
+                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-300">{section.label}</p>
+                <ul className="mt-3 space-y-2">
+                  {section.channels.map((channel) => (
+                    <li key={channel.name} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-200">
+                      <div className="flex items-center gap-2">
+                        <FontAwesomeIcon icon="hashtag" className="h-3.5 w-3.5 text-slate-400" />
+                        <span className="font-semibold text-white">#{channel.name}</span>
+                        {channel.badge ? (
+                          <span className="ml-auto inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.25em] text-cyan-200">
+                            {channel.badge}
+                          </span>
+                        ) : null}
+                      </div>
+                      <p className="mt-1 text-xs text-slate-400">{channel.description}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
       </Card>
 
@@ -92,15 +115,24 @@ function CommunityPage() {
       <Card variant="void" className="space-y-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay="500">
         <h2 className="text-lg font-semibold text-white">Upcoming community beats</h2>
         <ul className="space-y-3 text-sm text-slate-300">
-          {EVENTS.map(({ title, detail }, idx) => (
+          {COMMUNITY_BEATS.map(({ title, detail, prizeCoins }, idx) => (
             <li key={title} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay={String(550 + idx * 50)}>
               <p className="font-semibold text-white">{title}</p>
-              <p className="text-xs text-slate-400">{detail}</p>
+              <p className="text-xs text-slate-400">
+                {detail}
+                {prizeCoins ? (
+                  <span className="ml-2 inline-flex items-center gap-1 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-2 py-0.5 text-cyan-100">
+                    {prizeCoins}
+                    <FontAwesomeIcon icon="coins" className="h-3 w-3" aria-hidden="true" />
+                    <span className="sr-only">coins</span>
+                  </span>
+                ) : null}
+              </p>
             </li>
           ))}
         </ul>
       </Card>
-    </MarketingLayout>
+    </>
   )
 }
 

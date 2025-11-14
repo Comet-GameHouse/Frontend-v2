@@ -1,72 +1,80 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Button from '@components/ui/Button'
 import { Card } from '@components/ui/Card'
-import GameLayout from '@layouts/GameLayout'
-import { GAME_DETAIL_MAP, DEFAULT_GAME_KEY } from './data'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useGameLayout } from '@layouts'
+import {
+  GAME_DETAIL_MAP,
+  DEFAULT_GAME_KEY,
+  ROOM_FEE_OPTIONS,
+  DEFAULT_LEADERBOARD,
+  LEADERBOARD_TIERS,
+} from './data'
+import OverviewCard from './components/OverviewCard'
+import GameInsights from './components/GameInsights'
+import RoomEntryGrid from './components/RoomEntryGrid'
+import LeaderboardTabs from './components/LeaderboardTabs'
 
 function GameDetailPage() {
   const { id } = useParams()
   const navigate = useNavigate()
+  const { setMeta } = useGameLayout()
+  const [matchingFee, setMatchingFee] = useState<number | null>(null)
+  const timerRef = useRef<number | null>(null)
 
   const detail = useMemo(() => GAME_DETAIL_MAP[id ?? DEFAULT_GAME_KEY] ?? GAME_DETAIL_MAP[DEFAULT_GAME_KEY], [id])
 
-  return (
-    <GameLayout title={detail.title} description={detail.tagline}>
-      <section className="flex flex-col gap-6">
-        <Card variant="glass" className="space-y-4" data-aos="fade-up" data-aos-duration="300" data-aos-delay="100">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-3 text-xl font-semibold text-white">
-              <FontAwesomeIcon icon={detail.icon} className="h-7 w-7 text-cyan-300" />
-              <span>{detail.title}</span>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              <Button variant="primary" rightIcon="arrow-right" onClick={() => navigate('/arena')}>
-                Join featured queue
-              </Button>
-              <Button variant="outline" onClick={() => navigate('/games')}>
-                Back to library
-              </Button>
-            </div>
-          </div>
-          <p className="text-sm text-slate-300">{detail.overview}</p>
-        </Card>
+  useEffect(() => {
+    setMeta({ title: detail.title, description: detail.tagline })
+  }, [detail.tagline, detail.title, setMeta])
 
-        <div className="grid gap-4 md:grid-cols-3">
-          <Card variant="void" className="space-y-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay="150">
-            <h2 className="text-lg font-semibold text-white">Recommended loadout</h2>
-            <ul className="space-y-2 text-sm text-slate-300">
-              {detail.loadout.map((item, idx) => (
-                <li key={item} className="rounded-lg border border-white/10 bg-white/5 px-3 py-2" data-aos="fade-up" data-aos-duration="300" data-aos-delay={String(200 + idx * 50)}>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </Card>
-          <Card variant="void" className="space-y-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay="200">
-            <h2 className="text-lg font-semibold text-white">Match objectives</h2>
-            <ul className="space-y-2 text-sm text-slate-300">
-              {detail.objectives.map((objective, idx) => (
-                <li key={objective} className="rounded-lg border border-white/10 bg-white/5 px-3 py-2" data-aos="fade-up" data-aos-duration="300" data-aos-delay={String(250 + idx * 50)}>
-                  {objective}
-                </li>
-              ))}
-            </ul>
-          </Card>
-          <Card variant="void" className="space-y-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay="250">
-            <h2 className="text-lg font-semibold text-white">Pro tips</h2>
-            <ul className="space-y-2 text-sm text-slate-300">
-              {detail.tips.map((tip, idx) => (
-                <li key={tip} className="rounded-lg border border-white/10 bg-white/5 px-3 py-2" data-aos="fade-up" data-aos-duration="300" data-aos-delay={String(300 + idx * 50)}>
-                  {tip}
-                </li>
-              ))}
-            </ul>
-          </Card>
+  const handleJoinRoom = (fee: number) => {
+    if (matchingFee !== null) return
+    setMatchingFee(fee)
+    timerRef.current = window.setTimeout(() => {
+      setMatchingFee(null)
+      navigate(`/arena?entry=${fee}`)
+    }, 1200)
+  }
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        window.clearTimeout(timerRef.current)
+      }
+    }
+  }, [])
+
+  return (
+    <section className="flex flex-col gap-6">
+      <OverviewCard detail={detail} onQueue={() => navigate('/arena')} onBack={() => navigate('/games')} />
+      <GameInsights detail={detail} />
+      <Card variant="glass" className="space-y-4" data-aos="fade-up" data-aos-duration="300" data-aos-delay="275">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-white">Create a Room</h2>
+          <p className="text-xs text-slate-400">Pick an entry fee tier to match with ready commanders.</p>
         </div>
-      </section>
-    </GameLayout>
+        <RoomEntryGrid options={Array.from(ROOM_FEE_OPTIONS)} matchingFee={matchingFee} onJoin={handleJoinRoom} />
+        {matchingFee !== null ? (
+          <p className="flex items-center gap-2 text-xs text-slate-400">
+            We’re aligning a lobby at
+            <span className="inline-flex items-center gap-1 rounded-full border border-cyan-400/40 bg-cyan-400/10 px-2 py-0.5 text-cyan-100">
+              {matchingFee}
+              <FontAwesomeIcon icon="coins" className="h-3 w-3" aria-hidden="true" />
+              <span className="sr-only">coins</span>
+            </span>
+            entry. Hang tight!
+          </p>
+        ) : null}
+      </Card>
+      <Card variant="void" className="space-y-4" data-aos="fade-up" data-aos-duration="300" data-aos-delay="325">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-white">Leaderboard Spotlight</h2>
+          <p className="text-xs text-slate-400">See who’s dominating {detail.title} across time spans.</p>
+        </div>
+        <LeaderboardTabs tiers={Array.from(LEADERBOARD_TIERS)} entries={DEFAULT_LEADERBOARD} />
+      </Card>
+    </section>
   )
 }
 

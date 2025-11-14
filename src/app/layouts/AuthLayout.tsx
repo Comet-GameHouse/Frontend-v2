@@ -30,7 +30,12 @@ function AuthLayout() {
 
   const location = useLocation()
   const navigate = useNavigate()
-  const isSignIn = location.pathname.endsWith('/signin')
+  const authPath = location.pathname
+  const isSignIn = authPath.endsWith('/signin')
+  const isSignUp = authPath.endsWith('/signup')
+  const isForgotPassword = authPath.endsWith('/forgot-password')
+  const isVerifyCode = authPath.endsWith('/verify-code')
+
   const secondaryPath = isSignIn ? '/auth/signup' : '/auth/signin'
   const secondaryLabel = isSignIn ? 'Create account' : 'Sign in instead'
 
@@ -54,14 +59,16 @@ function AuthLayout() {
           >
             Back to home
           </Button>
-          <Button
-            variant="primary"
-            size="sm"
-            onClick={() => navigate(secondaryPath)}
-            leftIcon={isSignIn ? 'user-plus' : 'arrow-right-to-bracket'}
-          >
-            {secondaryLabel}
-          </Button>
+          {isVerifyCode ? null : (
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={() => navigate(secondaryPath)}
+              leftIcon={isSignIn ? 'user-plus' : 'arrow-right-to-bracket'}
+            >
+              {secondaryLabel}
+            </Button>
+          )}
         </div>
       </header>
 
@@ -104,7 +111,12 @@ function AuthLayout() {
             <FontAwesomeIcon icon="meteor" className="h-4 w-4" />
           </span>
           <p className="max-w-xs">
-            Earn exclusive launch rewards and bonus coins when you complete your first five arena matches.
+            Earn exclusive launch rewards and bonus{' '}
+            <span className="inline-flex items-center gap-1 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-2 py-0.5 text-cyan-100">
+              <FontAwesomeIcon icon="coins" className="h-3 w-3" aria-hidden="true" />
+              <span className="sr-only">coins</span>
+            </span>{' '}
+            when you complete your first five arena matches.
           </p>
         </div>
       </section>

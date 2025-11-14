@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Paper } from '@components'
+import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Paper, Select } from '@components'
 import { useNotifications } from '@hooks'
 
 const buttonVariants = [
@@ -16,6 +16,13 @@ const buttonVariants = [
 ] as const
 const buttonSizes = ['xs', 'sm', 'md', 'lg'] as const
 const inputVariants = ['default', 'subtle', 'glass', 'terminal'] as const
+const selectVariants = ['default', 'subtle', 'glass', 'terminal'] as const
+const selectOptions = [
+  { label: 'Select arena', value: '' },
+  { label: 'Cosmic Conquest', value: 'conquest' },
+  { label: 'Velocity Rush', value: 'rush' },
+  { label: 'Nebula Siege', value: 'siege' },
+] as const
 
 function UIKitShowcasePage() {
   const { notify } = useNotifications()
@@ -88,6 +95,43 @@ function UIKitShowcasePage() {
                 placeholder="Invalid example"
                 leftIcon="triangle-exclamation"
                 error="Please verify your credentials."
+              />
+            </Paper>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <h2 className="text-xl font-semibold tracking-tight text-slate-100">Selects</h2>
+        <p className="mt-2 max-w-2xl text-sm text-slate-400">
+          Room selectors and matchmaking filters inherit the same glow and gradient treatments for seamless theming.
+        </p>
+        <div className="mt-6 grid gap-6 lg:grid-cols-3">
+          {selectVariants.map((variant) => (
+            <Paper key={variant} className="space-y-4" elevation="sm">
+              <h3 className="text-sm font-semibold uppercase tracking-[0.4em] text-slate-500">
+                {variant}
+              </h3>
+              <Select
+                variant={variant}
+                label="Choose arena"
+                options={selectOptions}
+                defaultValue=""
+                data-aos="fade-up"
+                data-aos-duration="300"
+              />
+              <Select
+                variant={variant}
+                label="State"
+                error="Queue not available"
+                options={[
+                  { label: 'Currently unavailable', value: '', disabled: true },
+                  { label: 'All queues busy', value: 'busy', disabled: true },
+                ]}
+                defaultValue=""
+                data-aos="fade-up"
+                data-aos-duration="300"
+                data-aos-delay="150"
               />
             </Paper>
           ))}

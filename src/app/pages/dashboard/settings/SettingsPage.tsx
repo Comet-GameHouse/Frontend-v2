@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Card, Button } from '@components'
 import cn from '@lib/cn'
 
@@ -14,6 +15,7 @@ const SWITCHES = [
 ]
 
 function SettingsPage() {
+  const navigate = useNavigate()
   const [activePreference, setActivePreference] = useState<string | null>(null)
   const [enabled, setEnabled] = useState<Record<string, boolean>>({
     'Email summaries': true,
@@ -23,6 +25,16 @@ function SettingsPage() {
 
   return (
     <>
+      <Card variant="glass" className="flex flex-col gap-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay="100">
+        <div>
+          <h2 className="text-lg font-semibold text-white">Profile Identity</h2>
+          <p className="text-sm text-slate-300">Update your display name, contact email, bio, and social links.</p>
+        </div>
+        <Button variant="primary" size="sm" rightIcon="arrow-right" onClick={() => navigate('/settings/profile')}>
+          Edit profile
+        </Button>
+      </Card>
+
       <section className="grid gap-4 lg:grid-cols-2" data-aos="fade-up" data-aos-duration="300" data-aos-delay="150">
         {PREFERENCES.map((pref, index) => (
           <Card key={pref.title} variant="glass" className="space-y-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay={String(150 + index * 100)}>

@@ -27,9 +27,27 @@ const META: Record<string, { title: string; description: string }> = {
   },
 }
 
+function resolveMeta(pathname: string) {
+  const match = Object.entries(META).find(([key]) => pathname === key || pathname.startsWith(`${key}/`))
+  return match ? match[1] : META['/dashboard']
+}
+
+function isActiveLink(pathname: string, href: string) {
+  if (href === '/profile') {
+    return (
+      pathname === href ||
+      pathname.startsWith('/profile/') ||
+      pathname === '/dashboard/profile' ||
+      pathname.startsWith('/dashboard/profile/')
+    )
+  }
+
+  return pathname === href || pathname.startsWith(`${href}/`) || pathname.startsWith(`/dashboard${href}`)
+}
+
 function DashboardLayout() {
   const { pathname } = useLocation()
-  const meta = META[pathname] ?? META['/dashboard']
+  const meta = resolveMeta(pathname)
 
   return (
     <section className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 pb-16 pt-12 sm:px-10 lg:flex-row">
@@ -40,7 +58,7 @@ function DashboardLayout() {
             to={link.href}
             className={cn(
               'flex-1 rounded-xl border px-4 py-2 transition lg:flex-none',
-              pathname === link.href
+              isActiveLink(pathname, link.href)
                 ? 'border-cyan-400/60 bg-cyan-400/10 text-cyan-100'
                 : 'border-white/10 hover:border-cyan-400/40 hover:text-cyan-100',
             )}

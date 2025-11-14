@@ -1,4 +1,4 @@
-import type { NavigationItem } from './SiteHeader.types'
+import type { NavigationItem } from './types'
 
 const publicNavigation: NavigationItem[] = [
   { label: 'Games', href: '/games' },

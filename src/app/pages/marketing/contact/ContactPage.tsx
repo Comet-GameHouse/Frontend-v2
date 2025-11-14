@@ -1,4 +1,3 @@
-import MarketingLayout from '@layouts/MarketingLayout'
 import { Card } from '@components/ui/Card'
 import Button from '@components/ui/Button'
 
@@ -10,7 +9,7 @@ const CONTACTS = [
 
 function ContactPage() {
   return (
-    <MarketingLayout title="Contact Us" description="Reach the Comet GameHouse crew for support, partnerships, or press requests.">
+    <>
       <section className="grid gap-4 sm:grid-cols-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay="150">
         {CONTACTS.map(({ heading, detail, action }, idx) => (
           <Card key={heading} variant="glass" className="space-y-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay={String(150 + idx * 50)}>
@@ -32,7 +31,7 @@ function ContactPage() {
         <h2 className="text-lg font-semibold text-white">Headquarters</h2>
         <p className="text-sm text-slate-300">Comet GameHouse · 88 Orbit Street · Remote-first across NA & EU · business@comet.gg</p>
       </Card>
-    </MarketingLayout>
+    </>
   )
 }
 

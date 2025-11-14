@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import type { ProfileMenuControls } from './SiteHeader.types'
+import type { ProfileMenuControls } from './types'
 
 function useProfileMenu(): ProfileMenuControls {
   const [isOpen, setIsOpen] = useState(false)

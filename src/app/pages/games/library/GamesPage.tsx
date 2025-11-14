@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import GameLayout from '@layouts/GameLayout'
 import SpotlightBanner from './components/SpotlightBanner'
 import GamesFilterBar from './components/GamesFilterBar'
 import GamesGrid from './components/GamesGrid'
@@ -22,23 +21,18 @@ function GamesPage() {
   }, [activeTag, query])
 
   return (
-    <GameLayout
-      title="Game Library"
-      description="Browse every experience available on Comet GameHouse, from global showdowns to small-room favorites."
-    >
-      <div className="flex flex-col gap-6">
-        <SpotlightBanner onPlay={() => navigate('/arena')} />
-        <GamesFilterBar
-          tags={GAME_TAGS}
-          activeTag={activeTag}
-          onTagChange={setActiveTag}
-          query={query}
-          onQueryChange={setQuery}
-        />
-        <GamesGrid games={filtered} onSelect={(slug) => navigate(`/games/${slug}`)} />
-        <GameUpdates updates={RECENT_UPDATES} />
-      </div>
-    </GameLayout>
+    <div className="flex flex-col gap-6">
+      <SpotlightBanner onPlay={() => navigate('/arena')} />
+      <GamesFilterBar
+        tags={GAME_TAGS}
+        activeTag={activeTag}
+        onTagChange={setActiveTag}
+        query={query}
+        onQueryChange={setQuery}
+      />
+      <GamesGrid games={filtered} onSelect={(slug) => navigate(`/games/${slug}`)} />
+      <GameUpdates updates={RECENT_UPDATES} />
+    </div>
   )
 }
 

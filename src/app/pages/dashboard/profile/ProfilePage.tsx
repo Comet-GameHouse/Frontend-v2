@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { Card, Button } from '@components'
+import { useAbilityCards } from '@providers'
+import cn from '@lib/cn'
 
 const STATS = [
   { label: 'Matches Played', value: '486' },
@@ -28,6 +30,7 @@ const GLOBAL_RANK = { position: 128, percentile: 'Top 3%', score: 19420 }
 
 function ProfilePage() {
   const navigate = useNavigate()
+  const { activeCard } = useAbilityCards()
   const progress = Math.min(Math.round((LEVEL.earned / LEVEL.required) * 100), 100)
 
   return (
@@ -44,7 +47,7 @@ function ProfilePage() {
               <p className="text-xs text-slate-500">Joined Feb 2023</p>
             </div>
           </div>
-          <Button variant="outline" size="sm" rightIcon="arrow-right" onClick={() => navigate('/settings')}>
+          <Button variant="outline" size="sm" rightIcon="arrow-right" onClick={() => navigate('/settings/profile')}>
             Edit profile
           </Button>
         </div>
@@ -87,6 +90,47 @@ function ProfilePage() {
         <p className="text-sm text-slate-300">
           Cosmic strategist and support main. Coordinating late-night squads, experimenting with burst healing builds, and streaming community tournaments each weekend.
         </p>
+
+        <div
+          className={cn(
+            'relative space-y-3 overflow-hidden rounded-3xl border px-5 py-4 text-sm transition',
+            activeCard.theme.panel,
+            'backdrop-blur-xl',
+          )}
+        >
+          <span
+            className={cn(
+              'pointer-events-none absolute -top-16 right-0 size-48 rounded-full blur-3xl opacity-70',
+              activeCard.theme.glow,
+            )}
+            aria-hidden="true"
+          />
+          <div className="relative flex flex-wrap items-center justify-between gap-3 text-slate-100">
+            <div>
+              <p className={cn('text-xs uppercase tracking-[0.3em]', activeCard.theme.badge)}>Active ability card</p>
+              <p className="text-sm font-semibold text-white">{activeCard.title}</p>
+            </div>
+            <div className={cn('inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs', activeCard.theme.chip)}>
+              entry cost × 2 × {activeCard.multiplier.toFixed(2)}
+            </div>
+          </div>
+          <p className="relative text-xs text-slate-200">{activeCard.expiresLabel}</p>
+          <p className="relative text-xs text-slate-400">
+            Ability cards are premium purchases. Bronze unlocks friend invites to custom rooms, while Diamond and higher allow
+            custom avatar uploads in profile settings.
+          </p>
+                <ul className="relative space-y-2 text-sm text-slate-200">
+                  {activeCard.details.map((detail) => (
+                    <li key={detail} className="flex items-start gap-2">
+                      <span className="mt-1 size-1.5 flex-none rounded-full bg-cyan-300" />
+                      <span>{detail}</span>
+                    </li>
+                  ))}
+                </ul>
+          <Button variant="outline" size="xs" rightIcon="arrow-right" onClick={() => navigate('/progress/shop')}>
+            Browse ability cards
+          </Button>
+        </div>
       </Card>
 
       <Card variant="glass" className="space-y-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay="400">

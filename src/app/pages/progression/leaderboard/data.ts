@@ -34,6 +34,29 @@ const SEGMENTS = [
   { label: 'Creator circuit', detail: 'Exclusive events for broadcast partners and community leads.' },
 ]
 
+const LEADERBOARD_TIERS = ['Daily', 'Weekly', 'Monthly', 'Total'] as const
+
+const formatRating = (value: number) => new Intl.NumberFormat('en-US').format(value)
+
+const buildTier = (multiplier: number, bonus: number, trendBase: number) =>
+  RANKINGS.map((entry, index) => {
+    const baseScore = (RANKINGS.length - index) * multiplier + bonus
+    const change = Math.max(10, trendBase - index * 6)
+    return {
+      place: index + 1,
+      name: entry.name,
+      rating: formatRating(baseScore),
+      trend: `+${change}`,
+    }
+  })
+
+const TIERED_RANKINGS: Record<string, RankingEntry[]> = {
+  daily: buildTier(120, 860, 140),
+  weekly: buildTier(420, 3600, 420),
+  monthly: buildTier(980, 6200, 980),
+  total: RANKINGS,
+}
+
 export type { RankingEntry }
-export { RANKINGS, SEGMENTS }
+export { RANKINGS, SEGMENTS, LEADERBOARD_TIERS, TIERED_RANKINGS }
 

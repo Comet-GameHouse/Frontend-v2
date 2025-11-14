@@ -8,4 +8,5 @@ export * from './shop'
 export * from './support'
 export * from './notifications'
 export * from './navigation'
+export * from './layout'
 

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import AOS from 'aos'
 import { CosmicBackground } from '@components'
-import { AuthProvider, NotificationProvider } from '@providers'
+import { AuthProvider, NotificationProvider, AbilityCardProvider } from '@providers'
 import { AppRouter } from '@router'
 
 function App() {
@@ -17,12 +17,14 @@ function App() {
   return (
     <AuthProvider>
       <NotificationProvider>
-        <div className="relative isolate min-h-screen overflow-hidden bg-slate-950 text-slate-100">
-          <CosmicBackground className="z-0" />
-          <div className="relative z-10">
-            <AppRouter />
+        <AbilityCardProvider>
+          <div className="relative isolate min-h-screen overflow-hidden bg-slate-950 text-slate-100">
+            <CosmicBackground className="z-0" />
+            <div className="relative z-10">
+              <AppRouter />
+            </div>
           </div>
-        </div>
+        </AbilityCardProvider>
       </NotificationProvider>
     </AuthProvider>
   )

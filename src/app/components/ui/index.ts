@@ -4,6 +4,9 @@ export type { ButtonProps, ButtonVariant, ButtonSize } from './Button'
 export { default as Input } from './Input'
 export type { InputProps, InputVariant } from './Input'
 
+export { default as Select } from './Select'
+export type { SelectProps, SelectOption, SelectVariant } from './Select'
+
 export {
   Card,
   CardHeader,

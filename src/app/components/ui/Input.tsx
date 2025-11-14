@@ -6,6 +6,12 @@ import cn from '@lib/cn'
 
 type InputVariant = 'default' | 'subtle' | 'glass' | 'terminal'
 
+type AOSAttributes = {
+  'data-aos'?: string
+  'data-aos-delay'?: string
+  'data-aos-duration'?: string
+}
+
 type InputProps = {
   label?: string
   description?: string
@@ -15,7 +21,8 @@ type InputProps = {
   rightIcon?: IconProp
   variant?: InputVariant
   fullWidth?: boolean
-} & InputHTMLAttributes<HTMLInputElement>
+} & Omit<InputHTMLAttributes<HTMLInputElement>, keyof AOSAttributes> &
+  AOSAttributes
 
 const containerStyles: Record<InputVariant, string> = {
   default:
@@ -76,13 +83,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   ) => {
     const inputId = id ?? rest.name ?? undefined
     const [hasFocus, setHasFocus] = useState(false)
-
-    const {
-      ['data-aos']: dataAos,
-      ['data-aos-delay']: dataAosDelay,
-      ['data-aos-duration']: dataAosDuration,
-      ...inputProps
-    } = rest
+    // TypeScript-safe extraction of data-aos attributes with type assertion
+    const { 'data-aos': dataAos, 'data-aos-delay': dataAosDelay, 'data-aos-duration': dataAosDuration, ...inputProps } =
+      rest
 
     const { onFocus, onBlur, ...cleanInputProps } = inputProps
 

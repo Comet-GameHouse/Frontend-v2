@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import SiteHeaderContext from './SiteHeaderContext'
-import type { SiteHeaderContextValue } from './SiteHeader.types'
+import type { SiteHeaderContextValue } from './types'
 
 function useSiteHeaderContext(): SiteHeaderContextValue {
   const context = useContext(SiteHeaderContext)

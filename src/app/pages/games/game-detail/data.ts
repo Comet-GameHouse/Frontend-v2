@@ -10,6 +10,22 @@ type GameDetail = {
   icon: IconProp
 }
 
+const ROOM_FEE_OPTIONS = [
+  { fee: 5, playing: 28, waiting: 3 },
+  { fee: 10, playing: 24, waiting: 3 },
+  { fee: 25, playing: 18, waiting: 3 },
+  { fee: 50, playing: 16, waiting: 3 },
+  { fee: 100, playing: 12, waiting: 3 },
+  { fee: 200, playing: 9, waiting: 2 },
+  { fee: 500, playing: 6, waiting: 2 },
+  { fee: 1000, playing: 5, waiting: 2 },
+  { fee: 2000, playing: 4, waiting: 2 },
+  { fee: 5000, playing: 3, waiting: 2 },
+  { fee: 10000, playing: 0, waiting: 0 },
+] as const
+
+type RoomFeeOption = (typeof ROOM_FEE_OPTIONS)[number]
+
 const GAME_DETAIL_MAP: Record<string, GameDetail> = {
   'cosmic-conquest': {
     title: 'Cosmic Conquest',
@@ -33,6 +49,66 @@ const GAME_DETAIL_MAP: Record<string, GameDetail> = {
 
 const DEFAULT_GAME_KEY = 'cosmic-conquest'
 
-export type { GameDetail }
-export { GAME_DETAIL_MAP, DEFAULT_GAME_KEY }
+const LEADERBOARD_TIERS = ['Daily', 'Weekly', 'Monthly', 'Total'] as const
+
+const BASE_NAMES = [
+  'NovaRift',
+  'AuroraPulse',
+  'QuantumVex',
+  'NebulaScout',
+  'CometCourier',
+  'Voidshift',
+  'EclipseRunner',
+  'SolarLyric',
+  'StellarMender',
+  'Gravitas',
+  'HalcyonX',
+  'OrbitSage',
+  'IonParagon',
+  'LumenDash',
+  'MeteorMage',
+  'PhaseRunner',
+  'NebulaNova',
+  'CosmoCipher',
+  'OrbitMuse',
+  'VortexVirtue',
+]
+
+const formatNumber = (value: number) => new Intl.NumberFormat('en-US').format(value)
+
+const buildLeaderboard = (multiplier: number, bonus: number, selfIndex: number) =>
+  BASE_NAMES.map((name, index) => {
+    const adjustedName = index === selfIndex ? `${name} (You)` : name
+    const baseScore = (BASE_NAMES.length - index) * multiplier + bonus
+    const changeValue = Math.max(7, Math.round((BASE_NAMES.length - index) * multiplier * 0.05))
+
+    return {
+      player: adjustedName,
+      score: formatNumber(baseScore),
+      change: `+${changeValue}`,
+    }
+  })
+
+const DEFAULT_LEADERBOARD = {
+  daily: buildLeaderboard(75, 420, 6),
+  weekly: buildLeaderboard(320, 2200, 8),
+  monthly: buildLeaderboard(980, 5600, 10),
+  total: buildLeaderboard(2400, 9800, 12),
+} as const
+
+type LeaderboardTier = typeof LEADERBOARD_TIERS[number]
+type LeaderboardEntry = {
+  player: string
+  score: string
+  change: string
+}
+
+export type { GameDetail, RoomFeeOption, LeaderboardTier, LeaderboardEntry }
+export {
+  GAME_DETAIL_MAP,
+  DEFAULT_GAME_KEY,
+  ROOM_FEE_OPTIONS,
+  LEADERBOARD_TIERS,
+  DEFAULT_LEADERBOARD,
+}
 

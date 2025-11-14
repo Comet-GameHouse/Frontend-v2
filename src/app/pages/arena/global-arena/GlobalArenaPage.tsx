@@ -1,5 +1,4 @@
 import { useMemo } from 'react'
-import { GameLayout } from '@layouts'
 import type { MatchSummary, RoomParticipant } from '@app-types'
 
 const mockParticipants: RoomParticipant[] = [
@@ -72,10 +71,7 @@ function GlobalArenaPage() {
   const readyPlayers = matchSummary.participants.filter((participant) => participant.status === 'ready').length
 
   return (
-    <GameLayout
-      title="Global Arena"
-      description="All commanders clash in one colossal match. Join the queue to fight for the daily title."
-    >
+    <div className="space-y-8">
       <section className="grid gap-6 md:grid-cols-2">
         <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
           <h2 className="text-lg font-semibold text-slate-100">Match Status</h2>
@@ -134,14 +130,14 @@ function GlobalArenaPage() {
         </div>
       </section>
 
-      <section className="mt-8 rounded-2xl border border-slate-800 bg-slate-900/60 p-6 text-slate-300">
+      <section className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 text-slate-300">
         <h2 className="text-lg font-semibold text-slate-100">Arena Briefing</h2>
         <p className="mt-3">
           Every hour, the arena spins up a fresh rule set. This session rewards aggressive play with extra shard drops.
           Jump in solo or bring a squad to dominate the global stage.
         </p>
       </section>
-    </GameLayout>
+    </div>
   )
 }
 

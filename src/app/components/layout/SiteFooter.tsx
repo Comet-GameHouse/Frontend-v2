@@ -1,23 +1,37 @@
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-const quickLinks = [
+const primaryLinks = [
   { label: 'Home', href: '/' },
   { label: 'Games', href: '/games' },
   { label: 'Arena', href: '/arena' },
+  { label: 'Tournaments', href: '/tournaments' },
+  { label: 'Friends', href: '/friends' },
+  { label: 'Invite', href: '/invite' },
   { label: 'Community', href: '/community' },
 ]
 
 const supportLinks = [
   { label: 'Help Center', href: '/support' },
-  { label: 'Status', href: '/support/status' },
-  { label: 'Report Bug', href: '/support/report-bug' },
+  { label: 'Help Guides', href: '/support/help' },
+  { label: 'Status Page', href: '/support/status' },
   { label: 'Feedback', href: '/support/feedback' },
+  { label: 'Report Bug', href: '/support/report-bug' },
+]
+
+const progressionLinks = [
+  { label: 'Dashboard', href: '/dashboard' },
+  { label: 'Profile', href: '/profile' },
+  { label: 'Achievements', href: '/progress/achievements' },
+  { label: 'Leaderboard', href: '/progress/leaderboard' },
+  { label: 'Shop', href: '/progress/shop' },
+  { label: 'Notifications', href: '/notifications' },
+  { label: 'Settings', href: '/settings' },
 ]
 
 const legalLinks = [
-  { label: 'Privacy', href: '/legal/privacy' },
-  { label: 'Terms', href: '/legal/terms' },
+  { label: 'Privacy Policy', href: '/legal/privacy' },
+  { label: 'Terms of Use', href: '/legal/terms' },
 ]
 
 function SiteFooter() {
@@ -45,11 +59,11 @@ function SiteFooter() {
           </div>
         </div>
 
-        <div className="grid flex-1 grid-cols-1 gap-8 text-sm text-slate-300 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid flex-1 grid-cols-1 gap-8 text-sm text-slate-300 sm:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-3">
-            <p className="text-xs font-semibold text-slate-400">Explore</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Explore</p>
             <ul className="space-y-2">
-              {quickLinks.map((link) => (
+              {primaryLinks.map((link) => (
                 <li key={link.href}>
                   <Link className="transition hover:text-slate-100" to={link.href}>
                     {link.label}
@@ -59,7 +73,19 @@ function SiteFooter() {
             </ul>
           </div>
           <div className="space-y-3">
-            <p className="text-xs font-semibold text-slate-400">Support</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Player Hub</p>
+            <ul className="space-y-2">
+              {progressionLinks.map((link) => (
+                <li key={link.href}>
+                  <Link className="transition hover:text-slate-100" to={link.href}>
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="space-y-3">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Support</p>
             <ul className="space-y-2">
               {supportLinks.map((link) => (
                 <li key={link.href}>
@@ -71,7 +97,7 @@ function SiteFooter() {
             </ul>
           </div>
           <div className="space-y-3">
-            <p className="text-xs font-semibold text-slate-400">Legal</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Legal</p>
             <ul className="space-y-2">
               {legalLinks.map((link) => (
                 <li key={link.href}>

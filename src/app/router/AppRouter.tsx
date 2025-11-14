@@ -1,12 +1,24 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { ProtectedRoute } from '@components'
-import { RootLayout, AuthLayout, SupportLayout, LegalLayout, DashboardLayout, ProgressionLayout } from '@layouts'
-import { SignInPage, SignUpPage } from '@pages/auth'
+import {
+  RootLayout,
+  AuthLayout,
+  SupportLayout,
+  LegalLayout,
+  DashboardLayout,
+  ProgressionLayout,
+  MarketingLayout,
+  GameLayout,
+  UtilityLayout,
+  RoomLayout,
+} from '@layouts'
+import { SignInPage, SignUpPage, ForgotPasswordPage, VerifyEmailPage } from '@pages/auth'
 import {
   DashboardPage,
   NotificationsPage,
   ProfilePage,
   SettingsPage,
+  ProfileSettingsPage,
 } from '@pages/dashboard'
 import { GlobalArenaPage } from '@pages/arena'
 import {
@@ -22,6 +34,7 @@ import {
   ContactPage,
   HomePage,
 } from '@pages/marketing'
+import { InvitePage } from '@pages/invite'
 import { AchievementsPage, LeaderboardPage, ShopPage } from '@pages/progression'
 import { PrivacyPage, TermsPage } from '@pages/legal'
 import {
@@ -39,14 +52,19 @@ function AppRouter() {
       <Routes>
         <Route path="/" element={<RootLayout />}>
           <Route index element={<HomePage />} />
-          <Route path="about" element={<AboutUsPage />} />
-          <Route path="community" element={<CommunityPage />} />
-          <Route path="contact" element={<ContactPage />} />
-          <Route path="games" element={<GamesPage />} />
-          <Route path="games/:id" element={<GameDetailPage />} />
-          <Route path="tournaments" element={<TournamentsPage />} />
-          <Route path="friends" element={<FriendsPage />} />
-          <Route path="arena" element={<GlobalArenaPage />} />
+          <Route element={<MarketingLayout />}>
+            <Route path="about" element={<AboutUsPage />} />
+            <Route path="community" element={<CommunityPage />} />
+            <Route path="contact" element={<ContactPage />} />
+          </Route>
+          <Route element={<GameLayout />}>
+            <Route path="games" element={<GamesPage />} />
+            <Route path="games/:id" element={<GameDetailPage />} />
+            <Route path="tournaments" element={<TournamentsPage />} />
+            <Route path="friends" element={<FriendsPage />} />
+            <Route path="arena" element={<GlobalArenaPage />} />
+            <Route path="invite" element={<InvitePage />} />
+          </Route>
 
           <Route path="support" element={<SupportLayout />}>
             <Route index element={<SupportPage />} />
@@ -63,11 +81,12 @@ function AppRouter() {
             <Route path="terms" element={<TermsPage />} />
             <Route path="*" element={<Navigate to="/legal/privacy" replace />} />
           </Route>
-          <Route path="privacy" element={<Navigate to="/legal/privacy" replace />} />
-          <Route path="terms" element={<Navigate to="/legal/terms" replace />} />
 
-          <Route path="dev/notifications" element={<NotificationShowcasePage />} />
-          <Route path="dev/uikit" element={<UIKitShowcasePage />} />
+          <Route element={<UtilityLayout />}>
+            <Route path="dev/notifications" element={<NotificationShowcasePage />} />
+            <Route path="dev/uikit" element={<UIKitShowcasePage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Route>
 
           <Route element={<ProtectedRoute />}>
             <Route element={<DashboardLayout />}>
@@ -75,6 +94,7 @@ function AppRouter() {
               <Route path="profile" element={<ProfilePage />} />
               <Route path="notifications" element={<NotificationsPage />} />
               <Route path="settings" element={<SettingsPage />} />
+              <Route path="settings/profile" element={<ProfileSettingsPage />} />
             </Route>
             <Route path="progress" element={<ProgressionLayout />}>
               <Route path="achievements" element={<AchievementsPage />} />
@@ -82,15 +102,18 @@ function AppRouter() {
               <Route path="shop" element={<ShopPage />} />
               <Route path="*" element={<Navigate to="/progress/achievements" replace />} />
             </Route>
-            <Route path="rooms/:roomId" element={<RoomDetailPage />} />
+            <Route element={<RoomLayout />}>
+              <Route path="rooms/:roomId" element={<RoomDetailPage />} />
+            </Route>
           </Route>
 
-          <Route path="*" element={<NotFoundPage />} />
         </Route>
 
         <Route path="auth" element={<AuthLayout />}>
           <Route path="signin" element={<SignInPage />} />
           <Route path="signup" element={<SignUpPage />} />
+          <Route path="forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="verify-code" element={<VerifyEmailPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

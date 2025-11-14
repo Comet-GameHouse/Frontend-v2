@@ -1,4 +1,3 @@
-import { UtilityLayout } from '@layouts'
 import { useNotifications } from '@hooks'
 
 const demoNotifications = [
@@ -36,10 +35,7 @@ function NotificationShowcasePage() {
   const { notify, clearAll } = useNotifications()
 
   return (
-    <UtilityLayout
-      title="Notification Showcase"
-      description="Trigger Comet-styled toasts to preview intents and content patterns."
-    >
+    <>
       <p className="text-sm text-slate-400">
         Use these sample payloads as inspiration for gameplay events, rewards, or system messages.
       </p>
@@ -75,7 +71,7 @@ function NotificationShowcasePage() {
       >
         Clear All
       </button>
-    </UtilityLayout>
+    </>
   )
 }
 

@@ -1,5 +1,5 @@
 import { createContext } from 'react'
-import type { SiteHeaderContextValue } from './SiteHeader.types'
+import type { SiteHeaderContextValue } from './types'
 
 const SiteHeaderContext = createContext<SiteHeaderContextValue | undefined>(undefined)
 
