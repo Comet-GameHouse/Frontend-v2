@@ -42,7 +42,9 @@
       "@styles": ["./src/app/styles"],
       "@styles/*": ["./src/app/styles/*"],
       "@app-types": ["./src/app/app-types"],
-      "@app-types/*": ["./src/app/app-types/*"]
+      "@app-types/*": ["./src/app/app-types/*"],
+      "@services": ["./src/app/services"],
+      "@services/*": ["./src/app/services/*"]
     },
 
     /* Linting */

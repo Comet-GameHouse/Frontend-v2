@@ -1,5 +1,6 @@
 import { Card } from '@components/ui/Card'
 import Button from '@components/ui/Button'
+import { useAOS } from '@hooks'
 
 const CONTACTS = [
   { heading: 'Player Support', detail: 'Need technical help or room moderation assistance? Open a ticket via the Support Center.', action: 'support' },
@@ -8,11 +9,13 @@ const CONTACTS = [
 ]
 
 function ContactPage() {
+  const getAOSProps = useAOS()
+  
   return (
     <>
-      <section className="grid gap-4 sm:grid-cols-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay="150">
+      <section className="grid gap-4 sm:grid-cols-3" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '150' })}>
         {CONTACTS.map(({ heading, detail, action }, idx) => (
-          <Card key={heading} variant="glass" className="space-y-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay={String(150 + idx * 50)}>
+          <Card key={heading} variant="glass" className="space-y-3" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(150 + idx * 50) })}>
             <p className="text-lg font-semibold text-white">{heading}</p>
             <p className="text-sm text-slate-300">{detail}</p>
             {action === 'support' ? (
@@ -27,7 +30,7 @@ function ContactPage() {
           </Card>
         ))}
       </section>
-      <Card variant="void" className="space-y-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay="300">
+      <Card variant="void" className="space-y-3" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '300' })}>
         <h2 className="text-lg font-semibold text-white">Headquarters</h2>
         <p className="text-sm text-slate-300">Comet GameHouse · 88 Orbit Street · Remote-first across NA & EU · business@comet.gg</p>
       </Card>

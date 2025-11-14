@@ -1,113 +1,195 @@
-import { useEffect, useMemo, useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { Button, Input } from '@components'
-
-const CODE_LENGTH = 6
+import { useAuth, useAOS } from '@hooks'
 
 export default function VerifyEmailPage() {
   const navigate = useNavigate()
-  const location = useLocation()
-  const email = (location.state as { email?: string } | null)?.email ?? ''
-  const [code, setCode] = useState<string[]>(() => Array.from({ length: CODE_LENGTH }, () => ''))
-  const [status, setStatus] = useState<'idle' | 'verifying' | 'error'>('idle')
-  const [timer, setTimer] = useState(45)
+  const { verifyEmail, resendVerificationEmail } = useAuth()
+  const [searchParams] = useSearchParams()
+  const token = searchParams.get('token')
+  const email = searchParams.get('email')
 
+  const [status, setStatus] = useState<'idle' | 'verifying' | 'success' | 'error'>('idle')
+  const [error, setError] = useState<string>('')
+  const [resendStatus, setResendStatus] = useState<'idle' | 'sending' | 'sent'>('idle')
+  const [resendEmail, setResendEmail] = useState<string>(email || '')
+  const getAOSProps = useAOS()
+
+  // Auto-verify if token is present
   useEffect(() => {
-    if (timer <= 0) return
-    const id = window.setTimeout(() => setTimer((prev) => prev - 1), 1000)
-    return () => window.clearTimeout(id)
-  }, [timer])
+    if (token && status === 'idle') {
+      handleVerify(token)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token])
 
-  const formattedEmail = useMemo(() => {
+  const handleVerify = async (verificationToken: string) => {
+    setStatus('verifying')
+    setError('')
+
+    const result = await verifyEmail(verificationToken)
+
+    if (result.success) {
+      setStatus('success')
+      // Redirect after 2 seconds
+      setTimeout(() => {
+        navigate('/dashboard', { replace: true })
+      }, 2000)
+    } else {
+      setStatus('error')
+      setError(result.error || 'Failed to verify email')
+    }
+  }
+
+  const handleResend = async () => {
+    if (!resendEmail) {
+      setError('Please enter your email address')
+      return
+    }
+
+    setResendStatus('sending')
+    setError('')
+
+    const result = await resendVerificationEmail(resendEmail)
+
+    if (result.success) {
+      setResendStatus('sent')
+      setTimeout(() => {
+        setResendStatus('idle')
+      }, 3000)
+    } else {
+      setError(result.error || 'Failed to resend verification email')
+      setResendStatus('idle')
+    }
+  }
+
+  const formattedEmail = (email: string) => {
     if (!email) return 'your email'
     const [local, domain] = email.split('@')
     if (!domain) return email
     const obfuscatedLocal = local.length > 2 ? `${local.substring(0, 2)}***` : `${local[0]}***`
     return `${obfuscatedLocal}@${domain}`
-  }, [email])
-
-  const canSubmit = code.every((digit) => digit.length === 1)
-
-  const handleInput = (index: number, value: string) => {
-    if (!/^\d?$/.test(value)) return
-    setCode((prev) => {
-      const next = [...prev]
-      next[index] = value
-      return next
-    })
   }
 
-  const handleSubmit = () => {
-    if (!canSubmit) return
-    setStatus('verifying')
-    window.setTimeout(() => {
-      setStatus('idle')
-      navigate('/auth/signin', { replace: true })
-    }, 900)
+  if (status === 'verifying') {
+    return (
+      <div className="space-y-6">
+        <header className="space-y-2" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300' })}>
+          <h1 className="text-2xl font-semibold text-white">Verifying your email...</h1>
+          <p className="text-sm text-slate-300">Please wait while we verify your email address.</p>
+        </header>
+      </div>
+    )
   }
 
+  if (status === 'success') {
+    return (
+      <div className="space-y-6">
+        <header className="space-y-2" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300' })}>
+          <h1 className="text-2xl font-semibold text-white">Email verified!</h1>
+          <p className="text-sm text-slate-300">Your email has been successfully verified. Redirecting...</p>
+        </header>
+      </div>
+    )
+  }
+
+  // Show "Verify your email" when idle (no token) or error (no token)
+  if ((status === 'idle' || status === 'error') && !token) {
+    return (
+      <div className="space-y-6">
+        <header className="space-y-2" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300' })}>
+          <h1 className="text-2xl font-semibold text-white">Verify your email</h1>
+          <p className="text-sm text-slate-300">
+            {email
+              ? `We've sent a verification link to ${formattedEmail(resendEmail || email)}. Click the link in the email to verify your account.`
+              : 'Please check your email for a verification link. Click the link to verify your account.'}
+          </p>
+        </header>
+
+        {error && (
+          <div className="rounded-lg border border-rose-500/50 bg-rose-500/10 p-4 text-sm text-rose-200" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '100' })}>
+            {error}
+          </div>
+        )}
+
+        <div className="space-y-4" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '150' })}>
+          <div>
+            <Input
+              label="Email address"
+              type="email"
+              placeholder="you@example.com"
+              value={resendEmail}
+              onChange={(e) => {
+                setResendEmail(e.target.value)
+                setError('')
+              }}
+              leftIcon="envelope"
+              disabled={resendStatus === 'sending' || resendStatus === 'sent'}
+            />
+          </div>
+
+          <Button
+            variant="primary"
+            block
+            leftIcon="paper-plane"
+            onClick={handleResend}
+            disabled={resendStatus === 'sending' || resendStatus === 'sent' || !resendEmail}
+            loading={resendStatus === 'sending'}
+          >
+            {resendStatus === 'sent' ? 'Email sent!' : 'Resend verification email'}
+          </Button>
+        </div>
+
+        <div className="space-y-2 text-sm text-slate-300" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '200' })}>
+          <p>
+            Head back to{' '}
+            <Link to="/auth/signin" className="text-cyan-200 hover:text-cyan-100">
+              Sign in
+            </Link>
+          </p>
+        </div>
+      </div>
+    )
+  }
+
+  // Error state with token (verification attempt failed)
   return (
     <div className="space-y-6">
-      <header className="space-y-2" data-aos="fade-up" data-aos-duration="300">
-        <p className="text-xs uppercase tracking-[0.3em] text-cyan-200">Secure reset</p>
-        <h1 className="text-2xl font-semibold text-white">Enter verification code</h1>
-        <p className="text-sm text-slate-300">
-          We’ve sent a 6-digit code to <span className="font-semibold text-cyan-200">{formattedEmail}</span>. Enter it below to
-          continue resetting your password.
-        </p>
+      <header className="space-y-2" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300' })}>
+        <h1 className="text-2xl font-semibold text-white">Verification failed</h1>
+        <p className="text-sm text-slate-300">{error || 'Invalid or expired verification token.'}</p>
       </header>
 
-      <div className="flex justify-between gap-2" data-aos="fade-up" data-aos-duration="300" data-aos-delay="100">
-        {code.map((digit, index) => (
+      <div className="space-y-4" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '100' })}>
+        <div>
           <Input
-            key={index}
-            value={digit}
-            onChange={(event) => handleInput(index, event.target.value)}
-            inputMode="numeric"
-            maxLength={1}
-            pattern="\d*"
-            aria-label={`Digit ${index + 1}`}
-            className="h-14 w-full text-center text-lg font-semibold"
+            label="Email address"
+            type="email"
+            placeholder="you@example.com"
+            value={resendEmail}
+            onChange={(e) => {
+              setResendEmail(e.target.value)
+              setError('')
+            }}
+            leftIcon="envelope"
+            disabled={resendStatus === 'sending' || resendStatus === 'sent'}
           />
-        ))}
-      </div>
+        </div>
 
-      <div className="space-y-3">
         <Button
           variant="primary"
-          rightIcon="arrow-right"
-          disabled={!canSubmit || status === 'verifying'}
-          onClick={handleSubmit}
-          data-aos="fade-up"
-          data-aos-duration="300"
-          data-aos-delay="150"
+          block
+          leftIcon="paper-plane"
+          onClick={handleResend}
+          disabled={resendStatus === 'sending' || resendStatus === 'sent' || !resendEmail}
+          loading={resendStatus === 'sending'}
         >
-          {status === 'verifying' ? 'Verifying…' : 'Confirm code'}
-        </Button>
-        <Button
-          variant="ghost"
-          size="sm"
-          disabled={timer > 0}
-          onClick={() => {
-            setTimer(45)
-            setStatus('idle')
-            setCode(() => Array.from({ length: CODE_LENGTH }, () => ''))
-          }}
-          data-aos="fade-up"
-          data-aos-duration="300"
-          data-aos-delay="200"
-        >
-          {timer > 0 ? `Resend code in ${timer}s` : 'Resend code'}
+          {resendStatus === 'sent' ? 'Email sent!' : 'Resend verification email'}
         </Button>
       </div>
 
-      <div className="space-y-2 text-sm text-slate-300" data-aos="fade-up" data-aos-duration="300" data-aos-delay="250">
-        <p>
-          Wrong email?{' '}
-          <Link to="/auth/forgot-password" className="text-cyan-200 hover:text-cyan-100">
-            Try another address
-          </Link>
-        </p>
+      <div className="space-y-2 text-sm text-slate-300" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '150' })}>
         <p>
           Head back to{' '}
           <Link to="/auth/signin" className="text-cyan-200 hover:text-cyan-100">

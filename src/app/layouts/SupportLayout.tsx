@@ -1,5 +1,6 @@
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import cn from '@lib/cn'
+import { useAOS } from '@hooks'
 
 const NAV_LINKS = [
   { label: 'Overview', href: '/support' },
@@ -35,10 +36,11 @@ const META: Record<string, { title: string; description: string }> = {
 function SupportLayout() {
   const location = useLocation()
   const meta = META[location.pathname] ?? META['/support']
+  const getAOSProps = useAOS()
 
   return (
     <section className="mx-auto w-full max-w-6xl px-6 pb-16 pt-14 sm:px-10">
-      <div className="max-w-3xl space-y-4" data-aos="fade-up" data-aos-duration="300">
+      <div className="max-w-3xl space-y-4" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300' })}>
         <Link to="/" className="text-sm font-semibold text-cyan-200 transition hover:text-cyan-100">
           ← Back to home
         </Link>
@@ -53,9 +55,7 @@ function SupportLayout() {
             <Link
               key={link.href}
               to={link.href}
-              data-aos="fade-up"
-              data-aos-duration="300"
-              data-aos-delay={String(100 + index * 50)}
+              {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(100 + index * 50) })}
               className={cn(
                 'rounded-full border px-4 py-2 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60',
                 active

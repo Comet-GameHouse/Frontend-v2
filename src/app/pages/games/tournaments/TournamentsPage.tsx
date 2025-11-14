@@ -2,11 +2,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from '@components/ui/Button'
 import { Card } from '@components/ui/Card'
 import { UPCOMING_TOURNAMENTS } from './data'
+import { useAOS } from '@hooks'
 
 function TournamentsPage() {
+  const getAOSProps = useAOS()
+  
   return (
     <section className="flex flex-col gap-6">
-      <Card variant="cosmic" className="space-y-4" data-aos="fade-up" data-aos-duration="300" data-aos-delay="100">
+      <Card variant="cosmic" className="space-y-4" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '100' })}>
         <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-cyan-200">On deck</p>
@@ -21,7 +24,7 @@ function TournamentsPage() {
 
       <div className="grid gap-4 md:grid-cols-2">
         {UPCOMING_TOURNAMENTS.map((event, idx) => (
-          <Card key={event.title} variant="glass" className="space-y-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay={String(150 + idx * 50)}>
+          <Card key={event.title} variant="glass" className="space-y-3" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(150 + idx * 50) })}>
             <div className="flex items-center justify-between text-xs text-cyan-200">
               <span>{event.startsIn}</span>
               <span>{event.slots}</span>

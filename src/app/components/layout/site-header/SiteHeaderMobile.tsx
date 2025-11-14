@@ -19,7 +19,9 @@ function SiteHeaderMobile() {
     <div
       className={cn(
         'border-t border-slate-800/70 bg-slate-950/90 transition-[max-height,opacity] duration-200 ease-out lg:hidden',
-        mobileMenu.isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0',
+        mobileMenu.isOpen 
+          ? 'max-h-96 opacity-100 pointer-events-auto' 
+          : 'max-h-0 opacity-0 pointer-events-none',
       )}
     >
       <nav className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-6 py-4 text-sm text-slate-200">

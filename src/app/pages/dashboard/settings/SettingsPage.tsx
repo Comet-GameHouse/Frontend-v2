@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Card, Button } from '@components'
 import cn from '@lib/cn'
+import { useAOS } from '@hooks'
 
 const PREFERENCES = [
   { title: 'Privacy Controls', detail: 'Hide online status, restrict room invites, manage blocked players.', action: 'Adjust privacy' },
@@ -22,10 +23,11 @@ function SettingsPage() {
     'Push notifications': true,
     'Experimental features': false,
   })
+  const getAOSProps = useAOS()
 
   return (
     <>
-      <Card variant="glass" className="flex flex-col gap-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay="100">
+      <Card variant="glass" className="flex flex-col gap-3" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '100' })}>
         <div>
           <h2 className="text-lg font-semibold text-white">Profile Identity</h2>
           <p className="text-sm text-slate-300">Update your display name, contact email, bio, and social links.</p>
@@ -35,9 +37,9 @@ function SettingsPage() {
         </Button>
       </Card>
 
-      <section className="grid gap-4 lg:grid-cols-2" data-aos="fade-up" data-aos-duration="300" data-aos-delay="150">
+      <section className="grid gap-4 lg:grid-cols-2" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '150' })}>
         {PREFERENCES.map((pref, index) => (
-          <Card key={pref.title} variant="glass" className="space-y-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay={String(150 + index * 100)}>
+          <Card key={pref.title} variant="glass" className="space-y-3" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(150 + index * 100) })}>
             <div>
               <h3 className="text-lg font-semibold text-white">{pref.title}</h3>
               <p className="text-sm text-slate-300">{pref.detail}</p>
@@ -52,11 +54,11 @@ function SettingsPage() {
         ))}
       </section>
 
-      <Card variant="void" className="space-y-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay="250">
+      <Card variant="void" className="space-y-3" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '250' })}>
         <h2 className="text-lg font-semibold text-white">Communication Preferences</h2>
         <ul className="space-y-3 text-sm text-slate-300">
           {SWITCHES.map((option, index) => (
-            <li key={option.label} className="flex flex-col gap-1 rounded-2xl border border-white/10 bg-white/5 px-4 py-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay={String(300 + index * 100)}>
+            <li key={option.label} className="flex flex-col gap-1 rounded-2xl border border-white/10 bg-white/5 px-4 py-3" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(300 + index * 100) })}>
               <div className="flex items-center justify-between">
                 <span className="font-semibold text-white">{option.label}</span>
                 <button

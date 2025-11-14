@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { Card, Button } from '@components'
 import { useAbilityCards } from '@providers'
 import cn from '@lib/cn'
+import { useAOS } from '@hooks'
 
 const STATS = [
   { label: 'Matches Played', value: '486' },
@@ -32,10 +33,11 @@ function ProfilePage() {
   const navigate = useNavigate()
   const { activeCard } = useAbilityCards()
   const progress = Math.min(Math.round((LEVEL.earned / LEVEL.required) * 100), 100)
+  const getAOSProps = useAOS()
 
   return (
     <>
-      <Card variant="glass" className="space-y-5" data-aos="fade-up" data-aos-duration="300" data-aos-delay="150">
+      <Card variant="glass" className="space-y-5" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '150' })}>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <span className="flex size-16 items-center justify-center rounded-2xl border border-cyan-400/40 bg-cyan-400/10 text-2xl font-semibold text-cyan-200">
@@ -53,7 +55,7 @@ function ProfilePage() {
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <Card variant="void" className="space-y-3 sm:col-span-2" data-aos="fade-up" data-aos-duration="300" data-aos-delay="200">
+          <Card variant="void" className="space-y-3 sm:col-span-2" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '200' })}>
             <div className="flex items-center justify-between text-sm text-slate-300">
               <span>Level {LEVEL.current}</span>
               <span>
@@ -66,7 +68,7 @@ function ProfilePage() {
             <p className="text-xs text-slate-400">{100 - progress}% to next level</p>
           </Card>
 
-          <Card variant="void" className="space-y-2" data-aos="fade-up" data-aos-duration="300" data-aos-delay="250">
+          <Card variant="void" className="space-y-2" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '250' })}>
             <p className="text-xs font-semibold text-cyan-200">Global Rank</p>
             <p className="text-2xl font-semibold text-white">#{GLOBAL_RANK.position}</p>
             <p className="text-xs text-slate-400">{GLOBAL_RANK.percentile} • Score {GLOBAL_RANK.score.toLocaleString()}</p>
@@ -77,9 +79,7 @@ function ProfilePage() {
               key={stat.label}
               variant="void"
               className="space-y-2"
-              data-aos="fade-up"
-              data-aos-duration="300"
-              data-aos-delay={String(300 + index * 100)}
+              {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(300 + index * 100) })}
             >
               <p className="text-xs font-semibold text-cyan-200">{stat.label}</p>
               <p className="text-2xl font-semibold text-white">{stat.value}</p>
@@ -133,7 +133,7 @@ function ProfilePage() {
         </div>
       </Card>
 
-      <Card variant="glass" className="space-y-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay="400">
+      <Card variant="glass" className="space-y-3" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '400' })}>
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold text-white">Badge Case</h2>
           <Button variant="outline" size="sm" rightIcon="arrow-right" onClick={() => navigate('/progress/achievements')}>
@@ -145,9 +145,7 @@ function ProfilePage() {
             <li
               key={badge.title}
               className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3"
-              data-aos="fade-up"
-              data-aos-duration="300"
-              data-aos-delay={String(450 + index * 100)}
+              {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(450 + index * 100) })}
             >
               <img src={badge.image} alt={badge.title} className="size-10 rounded-xl border border-white/10 object-cover" />
               <div>

@@ -2,6 +2,7 @@ import type { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom'
 import { Button, Card } from '@components'
+import { useAOS } from '@hooks'
 
 const ACTIONS: Array<{ title: string; copy: string; href: string; icon: IconProp }> = [
   {
@@ -36,6 +37,8 @@ const RESOURCES = [
 ]
 
 function SupportPage() {
+  const getAOSProps = useAOS()
+  
   return (
     <>
       <section className="grid gap-6 lg:grid-cols-3">
@@ -44,9 +47,7 @@ function SupportPage() {
             key={item.title}
             variant="glass"
             className="flex h-full flex-col gap-4"
-            data-aos="fade-up"
-            data-aos-duration="300"
-            data-aos-delay={String(150 + index * 100)}
+            {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(150 + index * 100) })}
           >
             <div className="flex items-center gap-3 text-cyan-200">
               <span className="flex size-10 items-center justify-center rounded-xl border border-cyan-400/40 bg-cyan-400/10">
@@ -55,7 +56,7 @@ function SupportPage() {
               <h3 className="text-lg font-semibold text-white">{item.title}</h3>
             </div>
             <p className="text-sm text-slate-300">{item.copy}</p>
-            <Link to={item.href} className="mt-auto" data-aos="fade-up" data-aos-duration="300" data-aos-delay="250">
+            <Link to={item.href} className="mt-auto" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '250' })}>
               <Button variant="primary" block rightIcon="arrow-right">
                 Continue
               </Button>
@@ -70,9 +71,7 @@ function SupportPage() {
             key={resource.title}
             variant="void"
             className="space-y-4"
-            data-aos="fade-up"
-            data-aos-duration="300"
-            data-aos-delay={String(250 + index * 100)}
+            {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(250 + index * 100) })}
           >
             <h3 className="text-lg font-semibold text-white">{resource.title}</h3>
             <ul className="space-y-2 text-sm text-slate-300">

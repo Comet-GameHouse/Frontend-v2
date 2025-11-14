@@ -1,4 +1,5 @@
 import SupportForm, { type SupportField } from '../components/SupportForm'
+import { useAOS } from '@hooks'
 
 const FIELDS: SupportField[] = [
   {
@@ -29,14 +30,14 @@ const FIELDS: SupportField[] = [
 ]
 
 function FeedbackPage() {
+  const getAOSProps = useAOS()
+  
   return (
     <SupportForm
       fields={FIELDS}
       submitLabel="Send Feedback"
       successMessage="Thanks! Your feedback is now charted for the next planning sync."
-      data-aos="fade-up"
-      data-aos-duration="300"
-      data-aos-delay="150"
+      {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '150' })}
     />
   )
 }

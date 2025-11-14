@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useMemo, useState } from 'react'
 import cn from '@lib/cn'
 import { useAbilityCards } from '@providers'
+import { useAOS } from '@hooks'
 
 const COIN_PACKS = [
   { title: 'Nebula Starter', amount: '1,000', price: '$4.99', bonus: 'No bonus' },
@@ -52,6 +53,7 @@ const AVATAR_ITEMS = [
 function ShopPage() {
   const [activeTab, setActiveTab] = useState<'cards' | 'avatars'>('cards')
   const { cards } = useAbilityCards()
+  const getAOSProps = useAOS()
   const catalog = useMemo(
     () =>
       cards.map((card) => ({
@@ -73,9 +75,7 @@ function ShopPage() {
       <Card
         variant="void"
         className="flex flex-wrap justify-between gap-6"
-        data-aos="fade-up"
-        data-aos-duration="300"
-        data-aos-delay="100"
+        {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '100' })}
       >
         <div className="flex flex-wrap gap-3">
           <Button
@@ -105,7 +105,7 @@ function ShopPage() {
         </button>
       </Card>
 
-      <Card variant="glass" className="space-y-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay="150">
+      <Card variant="glass" className="space-y-3" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '150' })}>
         <h2 className="text-lg font-semibold text-white">Buy Game Coins</h2>
         <p className="text-sm text-slate-300">
           Secure
@@ -121,9 +121,7 @@ function ShopPage() {
               key={pack.title}
               variant="void"
               className="space-y-3"
-              data-aos="fade-up"
-              data-aos-duration="300"
-              data-aos-delay={String(200 + idx * 50)}
+              {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(200 + idx * 50) })}
             >
               <p className="text-sm uppercase tracking-[0.3em] text-cyan-200">{pack.title}</p>
               <div className="flex items-center gap-3">
@@ -148,7 +146,7 @@ function ShopPage() {
       </Card>
 
       {activeTab === 'cards' ? (
-        <Card variant="void" className="space-y-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay="250">
+        <Card variant="void" className="space-y-3" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '250' })}>
           <h2 className="text-lg font-semibold text-white">Special Ability Cards</h2>
           <p className="text-sm text-slate-300">Equip these limited cards for powerful one-match bonuses across arenas.</p>
           <p className="text-xs text-slate-400">
@@ -169,9 +167,7 @@ function ShopPage() {
                   card.theme.panel,
                   'backdrop-blur-xl',
                 )}
-                data-aos="fade-up"
-                data-aos-duration="300"
-                data-aos-delay={String(300 + idx * 50)}
+                {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(300 + idx * 50) })}
               >
                 <span
                   className={cn(
@@ -213,7 +209,7 @@ function ShopPage() {
           </div>
         </Card>
       ) : (
-        <Card variant="glass" className="space-y-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay="250">
+        <Card variant="glass" className="space-y-3" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '250' })}>
           <h2 className="text-lg font-semibold text-white">Avatar Marketplace</h2>
           <p className="text-sm text-slate-300">
             Unlock animated profile emblems using game coins. Uploading custom avatars becomes available once you own at least
@@ -228,9 +224,7 @@ function ShopPage() {
                   avatar.preview,
                   'backdrop-blur-xl',
                 )}
-                data-aos="fade-up"
-                data-aos-duration="300"
-                data-aos-delay={String(300 + idx * 40)}
+                {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(300 + idx * 40) })}
               >
                 <header className="relative flex flex-col gap-1 text-white">
                   <span className="text-xs uppercase tracking-[0.3em] text-slate-200">{avatar.rarity}</span>

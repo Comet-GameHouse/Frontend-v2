@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import Button from '@components/ui/Button'
 import { Card } from '@components/ui/Card'
 import { useAbilityCards } from '@providers'
+import { useAOS } from '@hooks'
 
 const CHAT_COLORS = ['text-cyan-200', 'text-amber-200', 'text-emerald-200'] as const
 
@@ -29,6 +30,7 @@ function RoomDetailPage() {
     [],
   )
   const [draft, setDraft] = useState('')
+  const getAOSProps = useAOS()
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -36,13 +38,11 @@ function RoomDetailPage() {
   }
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_280px]" data-aos="fade-up" data-aos-duration="300">
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_280px]" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300' })}>
       <Card
         variant="cosmic"
         className="relative overflow-hidden rounded-3xl border-white/10 bg-gradient-to-br from-slate-950 via-slate-900/80 to-slate-900/40 p-0"
-        data-aos="fade-up"
-        data-aos-duration="300"
-        data-aos-delay="150"
+        {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '150' })}
       >
         <header className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-6 py-4">
           <div>
@@ -90,7 +90,7 @@ function RoomDetailPage() {
         </div>
       </Card>
 
-      <aside className="flex flex-col gap-4" data-aos="fade-up" data-aos-duration="300" data-aos-delay="200">
+      <aside className="flex flex-col gap-4" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '200' })}>
         <Card variant="void" className="flex-1 space-y-4">
           <header className="flex items-center justify-between">
             <h2 className="text-lg font-semibold text-white">Quick chat</h2>

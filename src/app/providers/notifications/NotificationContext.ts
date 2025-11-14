@@ -18,6 +18,13 @@ type NotificationContextValue = {
   notify: (options: NotifyOptions) => void
   dismiss: (id: string) => void
   clearAll: () => void
+  // Backend notification unread count
+  unreadCount: number
+  setUnreadCount: (count: number | ((prev: number) => number)) => void
+  decrementUnreadCount: () => void
+  clearUnreadCount: () => void
+  isConnected: boolean
+  refreshUnreadCount: () => Promise<void>
 }
 
 const NotificationContext = createContext<NotificationContextValue | undefined>(undefined)

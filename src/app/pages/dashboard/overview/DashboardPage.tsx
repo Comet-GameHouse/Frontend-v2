@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { Card, Button } from '@components'
 import { useAbilityCards } from '@providers'
 import cn from '@lib/cn'
+import { useAOS } from '@hooks'
 
 const SUMMARY = [
   { label: 'Rank Points', value: '2,430', change: '+120 this week' },
@@ -18,6 +19,7 @@ const ACTIVITIES = [
 function DashboardPage() {
   const navigate = useNavigate()
   const { activeCard, cards, activeCardId, selectedCard, selectedCardId, selectCard, setActiveCardId } = useAbilityCards()
+  const getAOSProps = useAOS()
 
   const getRemainingDays = (label: string) => {
     const match = label.match(/(\d+)/g)
@@ -28,15 +30,13 @@ function DashboardPage() {
 
   return (
     <>
-      <section className="grid gap-4 sm:grid-cols-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay="150">
+      <section className="grid gap-4 sm:grid-cols-3" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '150' })}>
         {SUMMARY.map((item, index) => (
           <Card
             key={item.label}
             variant="glass"
             className="space-y-2"
-            data-aos="fade-up"
-            data-aos-duration="300"
-            data-aos-delay={String(150 + index * 100)}
+            {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(150 + index * 100) })}
           >
             <p className="text-xs font-semibold text-cyan-200">{item.label}</p>
             <p className="text-2xl font-semibold text-white">{item.value}</p>
@@ -45,7 +45,7 @@ function DashboardPage() {
         ))}
       </section>
 
-      <Card variant="void" className="space-y-4" data-aos="fade-up" data-aos-duration="300" data-aos-delay="220">
+      <Card variant="void" className="space-y-4" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '220' })}>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <h2 className="text-lg font-semibold text-white">Active Ability Card</h2>
@@ -206,7 +206,7 @@ function DashboardPage() {
         </div>
       </Card>
 
-      <section className="grid gap-6 lg:grid-cols-[2fr,1fr]" data-aos="fade-up" data-aos-duration="300" data-aos-delay="250">
+      <section className="grid gap-6 lg:grid-cols-[2fr,1fr]" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '250' })}>
         <Card variant="void" className="space-y-4">
           <header className="flex items-center justify-between">
             <div>
@@ -219,7 +219,7 @@ function DashboardPage() {
           </header>
           <ul className="space-y-3 text-sm text-slate-300">
             {ACTIVITIES.map((event, index) => (
-              <li key={event.title} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay={String(300 + index * 100)}>
+              <li key={event.title} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(300 + index * 100) })}>
                 <p className="font-semibold text-white">{event.title}</p>
                 <p className="text-xs text-slate-400">{event.detail}</p>
                 <p className="text-xs text-slate-500">{event.time}</p>
@@ -228,7 +228,7 @@ function DashboardPage() {
           </ul>
         </Card>
 
-        <Card variant="glass" className="space-y-4" data-aos="fade-up" data-aos-duration="300" data-aos-delay="300">
+        <Card variant="glass" className="space-y-4" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '300' })}>
           <h2 className="text-lg font-semibold text-white">Upcoming</h2>
           <p className="text-sm text-slate-300">Join scheduled scrims or track seasonal resets.</p>
           <ul className="space-y-3 text-xs text-slate-400">

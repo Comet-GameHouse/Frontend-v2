@@ -1,4 +1,5 @@
 import SupportForm, { type SupportField } from '../components/SupportForm'
+import { useAOS } from '@hooks'
 
 const FIELDS: SupportField[] = [
   {
@@ -34,14 +35,14 @@ const FIELDS: SupportField[] = [
 ]
 
 function BugReportPage() {
+  const getAOSProps = useAOS()
+  
   return (
     <SupportForm
       fields={FIELDS}
       submitLabel="Submit Bug"
-      successMessage="Bug logged! We’ll follow up by email when a fix ships."
-      data-aos="fade-up"
-      data-aos-duration="300"
-      data-aos-delay="150"
+      successMessage="Bug logged! We'll follow up by email when a fix ships."
+      {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '150' })}
     />
   )
 }

@@ -3,18 +3,19 @@ import Button from '@components/ui/Button'
 import SiteHeaderProfileMenu from './SiteHeaderProfileMenu'
 import useSiteHeaderContext from './useSiteHeaderContext'
 import CountUp from 'react-countup'
+import { useNotificationsSocket, useAOS } from '@hooks'
 
 function SiteHeaderDesktopActions() {
   const { isAuthenticated, coinBalance, formattedCoins, displayName, userRole, userInitial, profileMenu, actions } =
     useSiteHeaderContext()
+  const { unreadCount } = useNotificationsSocket()
+  const getAOSProps = useAOS()
 
   if (!isAuthenticated) {
     return (
       <div
         className="hidden items-center gap-3 lg:flex"
-        data-aos="fade-down"
-        data-aos-duration="300"
-        data-aos-delay="100"
+        {...getAOSProps({ 'data-aos': 'fade-down', 'data-aos-duration': '300', 'data-aos-delay': '100' })}
       >
         <Button variant="ghost" onClick={actions.signIn}>
           Sign in
@@ -29,9 +30,7 @@ function SiteHeaderDesktopActions() {
   return (
     <div
       className="hidden items-center gap-3 lg:flex"
-      data-aos="fade-down"
-      data-aos-duration="300"
-      data-aos-delay="100"
+      {...getAOSProps({ 'data-aos': 'fade-down', 'data-aos-duration': '300', 'data-aos-delay': '100' })}
     >
       <div className="flex items-center gap-2 rounded-2xl border border-cyan-500/30 bg-cyan-500/10 px-3 py-1.5 text-sm text-cyan-100">
         <FontAwesomeIcon icon="coins" className="h-4 w-4" />
@@ -39,20 +38,24 @@ function SiteHeaderDesktopActions() {
           <CountUp end={coinBalance} duration={1} separator="," preserveValue />
         </span>
       </div>
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={actions.goToNotifications}
-        className="px-2"
-        aria-label="Notifications"
-        data-aos="fade-down"
-        data-aos-duration="300"
-        data-aos-delay="150"
-      >
-        <FontAwesomeIcon icon="bell" className="h-4 w-4" />
-        <span className="sr-only">Notifications</span>
-      </Button>
-      <div className="relative" data-aos="fade-down" data-aos-duration="300" data-aos-delay="200">
+      <div className="relative" {...getAOSProps({ 'data-aos': 'fade-down', 'data-aos-duration': '300', 'data-aos-delay': '150' })}>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={actions.goToNotifications}
+          className="px-2"
+          aria-label="Notifications"
+        >
+          <FontAwesomeIcon icon="bell" className="h-4 w-4" />
+          <span className="sr-only">Notifications</span>
+        </Button>
+        {unreadCount > 0 && (
+          <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-rose-500 text-xs font-semibold text-white">
+            {unreadCount > 99 ? '99+' : unreadCount}
+          </span>
+        )}
+      </div>
+      <div className="relative" {...getAOSProps({ 'data-aos': 'fade-down', 'data-aos-duration': '300', 'data-aos-delay': '200' })}>
         <button
           type="button"
           ref={profileMenu.buttonRef}

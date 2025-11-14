@@ -1,5 +1,6 @@
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import cn from '@lib/cn'
+import { useAOS } from '@hooks'
 
 const NAV_LINKS = [
   { label: 'Achievements', href: '/progress/achievements' },
@@ -25,10 +26,11 @@ const META: Record<string, { title: string; description: string }> = {
 function ProgressionLayout() {
   const { pathname } = useLocation()
   const meta = META[pathname] ?? META['/progress/achievements']
+  const getAOSProps = useAOS()
 
   return (
     <section className="mx-auto w-full max-w-6xl px-6 pb-16 pt-12 sm:px-10">
-      <header className="space-y-3" data-aos="fade-up" data-aos-duration="300">
+      <header className="space-y-3" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300' })}>
         <Link to="/dashboard" className="text-sm font-semibold text-cyan-200 transition hover:text-cyan-100">
           ← Back to dashboard
         </Link>
@@ -47,16 +49,14 @@ function ProgressionLayout() {
                 ? 'border-cyan-400/60 bg-cyan-400/10 text-cyan-100'
                 : 'border-white/10 text-slate-300 hover:border-cyan-400/40 hover:text-cyan-100',
             )}
-            data-aos="fade-up"
-            data-aos-duration="300"
-            data-aos-delay={String(100 + index * 50)}
+            {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(100 + index * 50) })}
           >
             {link.label}
           </Link>
         ))}
       </nav>
 
-      <div className="mt-8 grid gap-6" data-aos="fade-up" data-aos-duration="300" data-aos-delay="150">
+      <div className="mt-8 grid gap-6" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '150' })}>
         <Outlet />
       </div>
     </section>

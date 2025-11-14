@@ -1,4 +1,5 @@
 import { Card } from '@components'
+import { useAOS } from '@hooks'
 
 const SECTIONS = [
   {
@@ -28,6 +29,8 @@ const SECTIONS = [
 ]
 
 function TermsPage() {
+  const getAOSProps = useAOS()
+  
   return (
     <>
       {SECTIONS.map((section, index) => (
@@ -35,9 +38,7 @@ function TermsPage() {
           key={section.title}
           variant="void"
           className="space-y-3"
-          data-aos="fade-up"
-          data-aos-duration="300"
-          data-aos-delay={String(150 + index * 100)}
+          {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(150 + index * 100) })}
         >
           <h2 className="text-xl font-semibold text-white">{section.title}</h2>
           <ul className="space-y-2 text-sm text-slate-300">
@@ -51,7 +52,7 @@ function TermsPage() {
         </Card>
       ))}
 
-      <p className="text-sm text-slate-400" data-aos="fade-up" data-aos-duration="300" data-aos-delay="300">
+      <p className="text-sm text-slate-400" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '300' })}>
         By continuing to play you agree to these rules. Contact terms@comet.gg for clarifications or partnership requests.
       </p>
     </>

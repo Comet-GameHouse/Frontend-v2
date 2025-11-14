@@ -1,9 +1,12 @@
 import Button from '@components/ui/Button'
 import { Card } from '@components/ui/Card'
+import { useAOS } from '@hooks'
 
 function SpotlightBanner({ onPlay }: { onPlay: () => void }) {
+  const getAOSProps = useAOS()
+  
   return (
-    <Card variant="cosmic" className="flex flex-col gap-4 bg-slate-900/70 p-6" data-aos="fade-up" data-aos-duration="300" data-aos-delay="100">
+    <Card variant="cosmic" className="flex flex-col gap-4 bg-slate-900/70 p-6" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '100' })}>
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-xs uppercase tracking-[0.3em] text-cyan-200">Season spotlight</p>

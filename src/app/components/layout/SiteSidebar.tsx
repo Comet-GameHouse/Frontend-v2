@@ -1,13 +1,14 @@
 import { useMemo, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import type { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { useAuth } from '@hooks'
 import cn from '@lib/cn'
 
 type SidebarItem = {
   label: string
   href: string
-  icon: string
+  icon: IconProp
 }
 
 const BASE_ITEMS: SidebarItem[] = [
@@ -42,12 +43,21 @@ function SiteSidebar() {
   }, [isAuthenticated])
 
   return (
-    <aside className="fixed left-0 top-1/2 hidden -translate-y-1/2 md:block z-50" aria-label="Primary navigation">
-      <div className="relative flex items-center" onMouseLeave={() => setIsOpen(false)}>
+    <aside 
+      className="fixed left-0 top-1/2 hidden -translate-y-1/2 md:block z-50"
+      aria-label="Primary navigation"
+    >
+      <div 
+        className={cn(
+          'relative flex items-center',
+          !isOpen && 'w-8'
+        )}
+        onMouseLeave={() => setIsOpen(false)}
+      >
         <span
           className={cn(
             'flex h-20 w-8 cursor-pointer items-center justify-center rounded-r-full border border-cyan-400/40 border-l-transparent bg-slate-950/80 text-cyan-200 shadow-[0_12px_48px_-24px_rgba(34,211,238,0.6)] backdrop-blur transition',
-            isOpen ? 'opacity-0' : 'hover:text-cyan-100',
+            isOpen ? 'opacity-0 pointer-events-none' : 'hover:text-cyan-100',
           )}
           onMouseEnter={() => setIsOpen(true)}
         >
@@ -55,7 +65,7 @@ function SiteSidebar() {
         </span>
         <nav
           className={cn(
-            '-ml-7 flex w-56 flex-col gap-3 rounded-3xl border border-cyan-400/20 bg-slate-950/90 px-4 py-5 text-sm shadow-[0_24px_80px_-40px_rgba(34,211,238,0.6)] backdrop-blur-xl transition-all duration-200',
+            'absolute left-0 top-1/2 -translate-y-1/2 -ml-7 flex w-56 flex-col gap-3 rounded-3xl border border-cyan-400/20 bg-slate-950/90 px-4 py-5 text-sm shadow-[0_24px_80px_-40px_rgba(34,211,238,0.6)] backdrop-blur-xl transition-all duration-200',
             isOpen ? 'pointer-events-auto translate-x-0 opacity-100' : 'pointer-events-none translate-x-[-12px] opacity-0',
           )}
           onMouseEnter={() => setIsOpen(true)}

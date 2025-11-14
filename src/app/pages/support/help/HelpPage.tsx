@@ -1,4 +1,5 @@
 import { Card } from '@components'
+import { useAOS } from '@hooks'
 
 const FAQ = [
   {
@@ -19,17 +20,17 @@ const FAQ = [
 ]
 
 function HelpPage() {
+  const getAOSProps = useAOS()
+  
   return (
-    <Card variant="glass" className="space-y-4" data-aos="fade-up" data-aos-duration="300" data-aos-delay="150">
+    <Card variant="glass" className="space-y-4" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '150' })}>
       <h2 className="text-lg font-semibold text-white">Frequently Asked Questions</h2>
       <ul className="space-y-3">
         {FAQ.map((item, index) => (
           <li
             key={item.question}
             className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4"
-            data-aos="fade-up"
-            data-aos-duration="300"
-            data-aos-delay={String(200 + index * 50)}
+            {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(200 + index * 50) })}
           >
             <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-[0.3em] text-cyan-200">
               <span>{item.step}</span>

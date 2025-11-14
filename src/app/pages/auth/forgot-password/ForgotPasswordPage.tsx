@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Button, Input } from '@components'
+import { useAOS } from '@hooks'
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'sending'>('idle')
   const navigate = useNavigate()
+  const getAOSProps = useAOS()
 
   const handleSubmit = () => {
     if (!email) return
@@ -17,7 +19,7 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="space-y-6">
-      <header className="space-y-2" data-aos="fade-up" data-aos-duration="300">
+      <header className="space-y-2" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300' })}>
         <p className="text-xs uppercase tracking-[0.3em] text-cyan-200">Reset access</p>
         <h1 className="text-2xl font-semibold text-white">Forgot password</h1>
         <p className="text-sm text-slate-300">
@@ -33,9 +35,7 @@ export default function ForgotPasswordPage() {
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           leftIcon="envelope"
-          data-aos="fade-up"
-          data-aos-duration="300"
-          data-aos-delay="100"
+          {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '100' })}
         />
 
         <Button
@@ -43,15 +43,13 @@ export default function ForgotPasswordPage() {
           rightIcon="arrow-right"
           disabled={!email || status === 'sending'}
           onClick={handleSubmit}
-          data-aos="fade-up"
-          data-aos-duration="300"
-          data-aos-delay="150"
+          {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '150' })}
         >
           {status === 'sending' ? 'Sending code…' : 'Send verification code'}
         </Button>
       </div>
 
-      <div className="space-y-2 text-sm text-slate-300" data-aos="fade-up" data-aos-duration="300" data-aos-delay="200">
+      <div className="space-y-2 text-sm text-slate-300" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '200' })}>
         <p>
           Remembered your password?{' '}
           <Link to="/auth/signin" className="text-cyan-200 hover:text-cyan-100">

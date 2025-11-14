@@ -1,7 +1,6 @@
-import { useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import type { RoomFeeOption } from '../data'
-import AOS from 'aos'
+import { useAOS } from '@hooks'
 
 type RoomEntryGridProps = {
   options: RoomFeeOption[]
@@ -10,10 +9,7 @@ type RoomEntryGridProps = {
 }
 
 function RoomEntryGrid({ options, matchingFee, onJoin }: RoomEntryGridProps) {
-
-  useEffect(() => {
-    AOS.refresh()
-  }, [matchingFee])
+  const getAOSProps = useAOS()
 
   return (
     <div className="grid gap-4 lg:grid-cols-3">
@@ -28,9 +24,7 @@ function RoomEntryGrid({ options, matchingFee, onJoin }: RoomEntryGridProps) {
             type="button"
             onClick={() => onJoin(fee)}
             disabled={matchingFee !== null && !isActive}
-            data-aos="fade-up"
-            data-aos-duration="300"
-            data-aos-delay={String(300 + idx * 50)}
+            {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(300 + idx * 50) })}
             className={[
               'group flex flex-col gap-4 rounded-3xl border border-white/5 bg-white/5 p-5 text-left transition',
               'hover:border-cyan-400/50 hover:bg-cyan-400/10 hover:shadow-[0_20px_60px_-40px_rgba(34,211,238,0.35)]',

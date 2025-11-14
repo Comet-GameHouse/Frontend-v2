@@ -12,7 +12,7 @@ import {
   UtilityLayout,
   RoomLayout,
 } from '@layouts'
-import { SignInPage, SignUpPage, ForgotPasswordPage, VerifyEmailPage } from '@pages/auth'
+import { SignInPage, SignUpPage, ForgotPasswordPage, VerifyEmailPage, OAuthCallbackPage } from '@pages/auth'
 import {
   DashboardPage,
   NotificationsPage,
@@ -114,6 +114,7 @@ function AppRouter() {
           <Route path="signup" element={<SignUpPage />} />
           <Route path="forgot-password" element={<ForgotPasswordPage />} />
           <Route path="verify-code" element={<VerifyEmailPage />} />
+          <Route path="oauth-callback" element={<OAuthCallbackPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

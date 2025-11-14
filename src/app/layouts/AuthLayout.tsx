@@ -1,9 +1,8 @@
 import type { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useEffect } from 'react'
-import AOS from 'aos'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Button } from '@components'
+import { useAOS } from '@hooks'
 
 const features: Array<{ title: string; description: string; icon: IconProp }> = [
   {
@@ -24,12 +23,9 @@ const features: Array<{ title: string; description: string; icon: IconProp }> = 
 ]
 
 function AuthLayout() {
-  useEffect(() => {
-    AOS.refresh()
-  }, [])
-
   const location = useLocation()
   const navigate = useNavigate()
+  const getAOSProps = useAOS()
   const authPath = location.pathname
   const isSignIn = authPath.endsWith('/signin')
   const isSignUp = authPath.endsWith('/signup')
@@ -73,7 +69,7 @@ function AuthLayout() {
       </header>
 
       <section className="hidden w-full max-w-xl flex-col justify-between gap-12 border-r border-white/5 px-12 pb-14 pt-32 lg:flex">
-        <div className="space-y-8" data-aos="fade-up" data-aos-duration="300">
+        <div className="space-y-8" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300' })}>
           <p className="inline-flex items-center gap-2 rounded-full border border-cyan-500/40 bg-cyan-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.4em] text-cyan-200">
             <span className="size-2 rounded-full bg-cyan-300" />
             Comet GameHouse
@@ -86,14 +82,12 @@ function AuthLayout() {
           </div>
         </div>
 
-        <ul className="space-y-4" data-aos="fade-up" data-aos-duration="300" data-aos-delay="150">
+        <ul className="space-y-4" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '150' })}>
           {features.map((feature, index) => (
             <li
               key={feature.title}
               className="flex items-start gap-4 rounded-2xl border border-white/10 bg-white/5 p-5"
-              data-aos="fade-up"
-              data-aos-duration="300"
-              data-aos-delay={String(200 + index * 100)}
+              {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(200 + index * 100) })}
             >
               <span className="flex h-12 w-12 flex-none items-center justify-center rounded-xl border border-cyan-300/40 bg-cyan-300/10 text-cyan-200">
                 <FontAwesomeIcon icon={feature.icon} className="h-5 w-5" />
@@ -106,7 +100,7 @@ function AuthLayout() {
           ))}
         </ul>
 
-        <div className="flex items-center gap-4 text-sm text-slate-300" data-aos="fade-up" data-aos-duration="300" data-aos-delay="550">
+        <div className="flex items-center gap-4 text-sm text-slate-300" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '550' })}>
           <span className="flex h-12 w-12 flex-none items-center justify-center rounded-xl border border-cyan-500/40 bg-cyan-500/10 text-cyan-200">
             <FontAwesomeIcon icon="meteor" className="h-4 w-4" />
           </span>

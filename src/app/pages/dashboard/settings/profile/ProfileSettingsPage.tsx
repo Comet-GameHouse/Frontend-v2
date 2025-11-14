@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { Card, Button, Input } from '@components'
 import { useAbilityCards } from '@providers'
 import cn from '@lib/cn'
+import { useAOS } from '@hooks'
 
 type ProfileFormState = {
   displayName: string
@@ -42,6 +43,7 @@ function ProfileSettingsPage() {
   const navigate = useNavigate()
   const { hasTierOrAbove, highestTier } = useAbilityCards()
   const canUploadCustomAvatar = hasTierOrAbove('diamond')
+  const getAOSProps = useAOS()
 
   const handleFieldChange = (field: keyof ProfileFormState) => (value: string) => {
     setFormState((prev) => ({ ...prev, [field]: value }))
@@ -62,7 +64,7 @@ function ProfileSettingsPage() {
 
   return (
     <form className="grid gap-6" onSubmit={handleSubmit}>
-      <Card variant="glass" className="space-y-6" data-aos="fade-up" data-aos-duration="300" data-aos-delay="150">
+      <Card variant="glass" className="space-y-6" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '150' })}>
         <header className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <h2 className="text-lg font-semibold text-white">Profile details</h2>
@@ -86,18 +88,14 @@ function ProfileSettingsPage() {
             value={formState.displayName}
             onChange={(event) => handleFieldChange('displayName')(event.target.value)}
             placeholder="Commander Nova"
-            data-aos="fade-up"
-            data-aos-duration="300"
-            data-aos-delay="200"
+            {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '200' })}
           />
           <Input
             label="Username"
             value={formState.username}
             onChange={(event) => handleFieldChange('username')(event.target.value)}
             placeholder="@handle"
-            data-aos="fade-up"
-            data-aos-duration="300"
-            data-aos-delay="250"
+            {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '250' })}
           />
           <Input
             label="Email"
@@ -105,31 +103,25 @@ function ProfileSettingsPage() {
             value={formState.email}
             onChange={(event) => handleFieldChange('email')(event.target.value)}
             placeholder="you@comet.gg"
-            data-aos="fade-up"
-            data-aos-duration="300"
-            data-aos-delay="300"
+            {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '300' })}
           />
           <Input
             label="Pronouns"
             value={formState.pronouns}
             onChange={(event) => handleFieldChange('pronouns')(event.target.value)}
             placeholder="They / Them"
-            data-aos="fade-up"
-            data-aos-duration="300"
-            data-aos-delay="350"
+            {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '350' })}
           />
           <Input
             label="Timezone"
             value={formState.timezone}
             onChange={(event) => handleFieldChange('timezone')(event.target.value)}
             placeholder="UTC-05:00"
-            data-aos="fade-up"
-            data-aos-duration="300"
-            data-aos-delay="400"
+            {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '400' })}
           />
         </div>
 
-        <label className="grid gap-2 text-sm text-slate-200" data-aos="fade-up" data-aos-duration="300" data-aos-delay="450">
+        <label className="grid gap-2 text-sm text-slate-200" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '450' })}>
           <span>Bio</span>
           <textarea
             value={formState.bio}
@@ -141,7 +133,7 @@ function ProfileSettingsPage() {
         </label>
       </Card>
 
-      <Card variant="void" className="space-y-4" data-aos="fade-up" data-aos-duration="300" data-aos-delay="200">
+      <Card variant="void" className="space-y-4" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '200' })}>
         <header className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <h2 className="text-lg font-semibold text-white">Avatar & emblem</h2>
@@ -238,7 +230,7 @@ function ProfileSettingsPage() {
         </div>
       </Card>
 
-      <Card variant="void" className="space-y-4" data-aos="fade-up" data-aos-duration="300" data-aos-delay="250">
+      <Card variant="void" className="space-y-4" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '250' })}>
         <header className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <h2 className="text-lg font-semibold text-white">Social links</h2>
@@ -253,15 +245,13 @@ function ProfileSettingsPage() {
               value={formState.socials[field.key]}
               onChange={(event) => handleSocialChange(field.key)(event.target.value)}
               placeholder={field.placeholder}
-              data-aos="fade-up"
-              data-aos-duration="300"
-              data-aos-delay={String(300 + index * 50)}
+              {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(300 + index * 50) })}
             />
           ))}
         </div>
       </Card>
 
-      <div className="flex flex-wrap justify-end gap-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay="300">
+      <div className="flex flex-wrap justify-end gap-3" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '300' })}>
         <Button
           type="button"
           variant="ghost"

@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom'
 import cn from '@lib/cn'
 import useSiteHeaderContext from './useSiteHeaderContext'
+import { useAOS } from '@hooks'
 
 function SiteHeaderNav() {
   const { navItems, currentPath } = useSiteHeaderContext()
+  const getAOSProps = useAOS()
 
   return (
     <nav className="hidden items-center gap-1 text-sm lg:flex">
@@ -14,9 +16,7 @@ function SiteHeaderNav() {
           <Link
             key={item.href}
             to={item.href}
-            data-aos="fade-down"
-            data-aos-duration="300"
-            data-aos-delay={delay}
+            {...getAOSProps({ 'data-aos': 'fade-down', 'data-aos-duration': '300', 'data-aos-delay': String(delay) })}
             className={cn(
               'relative rounded-xl px-3 py-2 text-sm font-medium text-slate-300 transition hover:text-slate-50',
               'after:absolute after:left-1/2 after:top-full after:-translate-x-1/2 after:rounded-full after:transition-all after:duration-200 after:content-[""]',

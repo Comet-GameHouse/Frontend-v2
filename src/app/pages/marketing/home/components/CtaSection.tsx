@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from '@components/ui/Button'
 import { Card } from '@components/ui/Card'
+import { useAOS } from '@hooks'
 
 type CtaSectionProps = {
   isAuthenticated: boolean
@@ -8,9 +9,10 @@ type CtaSectionProps = {
 }
 
 function CtaSection({ isAuthenticated, onNavigate }: CtaSectionProps) {
+  const getAOSProps = useAOS()
   const primaryPath = isAuthenticated ? '/dashboard' : '/auth/signup'
   return (
-    <section className="mx-auto max-w-5xl px-6" data-aos="fade-up" data-aos-duration="300" data-aos-delay="200">
+    <section className="mx-auto max-w-5xl px-6" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '200' })}>
       <Card variant="gradient" className="space-y-5 text-center">
         <h2 className="text-3xl font-semibold text-white sm:text-4xl">Ready to launch?</h2>
         <p className="text-lg text-slate-200">

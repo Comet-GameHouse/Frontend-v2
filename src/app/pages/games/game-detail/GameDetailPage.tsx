@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Card } from '@components/ui/Card'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useGameLayout } from '@layouts'
+import { useAOS } from '@hooks'
 import {
   GAME_DETAIL_MAP,
   DEFAULT_GAME_KEY,
@@ -21,6 +22,7 @@ function GameDetailPage() {
   const { setMeta } = useGameLayout()
   const [matchingFee, setMatchingFee] = useState<number | null>(null)
   const timerRef = useRef<number | null>(null)
+  const getAOSProps = useAOS()
 
   const detail = useMemo(() => GAME_DETAIL_MAP[id ?? DEFAULT_GAME_KEY] ?? GAME_DETAIL_MAP[DEFAULT_GAME_KEY], [id])
 
@@ -49,7 +51,7 @@ function GameDetailPage() {
     <section className="flex flex-col gap-6">
       <OverviewCard detail={detail} onQueue={() => navigate('/arena')} onBack={() => navigate('/games')} />
       <GameInsights detail={detail} />
-      <Card variant="glass" className="space-y-4" data-aos="fade-up" data-aos-duration="300" data-aos-delay="275">
+      <Card variant="glass" className="space-y-4" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '275' })}>
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold text-white">Create a Room</h2>
           <p className="text-xs text-slate-400">Pick an entry fee tier to match with ready commanders.</p>
@@ -67,7 +69,7 @@ function GameDetailPage() {
           </p>
         ) : null}
       </Card>
-      <Card variant="void" className="space-y-4" data-aos="fade-up" data-aos-duration="300" data-aos-delay="325">
+      <Card variant="void" className="space-y-4" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '325' })}>
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold text-white">Leaderboard Spotlight</h2>
           <p className="text-xs text-slate-400">See who’s dominating {detail.title} across time spans.</p>

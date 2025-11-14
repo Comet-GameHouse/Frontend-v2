@@ -1,4 +1,5 @@
 import { Card, Button } from '@components'
+import { useAOS } from '@hooks'
 
 type Achievement = {
   title: string
@@ -69,6 +70,8 @@ const SECTIONS = [
 ]
 
 function AchievementsPage() {
+  const getAOSProps = useAOS()
+  
   return (
     <div className="space-y-6">
       {SECTIONS.map((section, sectionIndex) => {
@@ -79,9 +82,7 @@ function AchievementsPage() {
             key={section.label}
             variant="void"
             className="space-y-3"
-            data-aos="fade-up"
-            data-aos-duration="300"
-            data-aos-delay={String(150 + sectionIndex * 100)}
+            {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(150 + sectionIndex * 100) })}
           >
             <header className="flex items-center justify-between text-sm text-slate-400">
               <span>{section.label}</span>
@@ -110,9 +111,7 @@ function AchievementsPage() {
                     <li
                       key={achievement.title}
                       className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 sm:flex-row sm:items-center sm:gap-6"
-                      data-aos="fade-up"
-                      data-aos-duration="300"
-                      data-aos-delay={String(200 + achievementIndex * 50)}
+                      {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(200 + achievementIndex * 50) })}
                     >
                       <div className="flex flex-1 items-start gap-3">
                         <img
@@ -165,9 +164,7 @@ function AchievementsPage() {
       <Card
         variant="void"
         className="space-y-3"
-        data-aos="fade-up"
-        data-aos-duration="300"
-        data-aos-delay="450"
+        {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '450' })}
       >
         <h2 className="text-lg font-semibold text-white">Progression Path</h2>
         <ul className="space-y-3 text-sm text-slate-300">
@@ -175,9 +172,7 @@ function AchievementsPage() {
             <li
               key={node.step}
               className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3"
-              data-aos="fade-up"
-              data-aos-duration="300"
-              data-aos-delay={String(500 + index * 50)}
+              {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(500 + index * 50) })}
             >
               <span>{node.step}</span>
               <span className="text-xs text-cyan-200">{node.status}</span>

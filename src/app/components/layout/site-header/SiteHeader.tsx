@@ -1,14 +1,13 @@
-import { useMemo, useState, useCallback, useEffect } from 'react'
+import { useMemo, useState, useCallback } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from '@components/ui/Button'
-import { useAuth } from '@hooks'
+import { useAuth, useAOS } from '@hooks'
 import SiteHeaderDesktop from './SiteHeaderDesktop'
 import SiteHeaderMobile from './SiteHeaderMobile'
 import { authenticatedNavigation, publicNavigation } from './data'
 import useProfileMenu from './useProfileMenu'
 import SiteHeaderProvider from './SiteHeaderProvider'
-import AOS from 'aos'
 
 function SiteHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -106,9 +105,7 @@ function SiteHeader() {
     ],
   )
 
-  useEffect(() => {
-    AOS.refresh()
-  }, [contextValue])
+  const getAOSProps = useAOS()
 
   return (
     <SiteHeaderProvider value={contextValue}>
@@ -118,8 +115,7 @@ function SiteHeader() {
             to="/"
             className="flex items-center gap-3 text-slate-100"
             onClick={() => contextValue.mobileMenu.close()}
-            data-aos="fade-down"
-            data-aos-duration="300"
+            {...getAOSProps({ 'data-aos': 'fade-down', 'data-aos-duration': '300' })}
           >
             <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-cyan-500/40 bg-cyan-500/10 text-cyan-200">
               <FontAwesomeIcon icon="meteor" className="h-5 w-5" />
@@ -138,9 +134,7 @@ function SiteHeader() {
             leftIcon={contextValue.mobileMenu.isOpen ? 'xmark' : 'bars'}
             aria-expanded={contextValue.mobileMenu.isOpen}
             aria-label="Toggle navigation menu"
-            data-aos="fade-down"
-            data-aos-duration="300"
-            data-aos-delay="200"
+            {...getAOSProps({ 'data-aos': 'fade-down', 'data-aos-duration': '300', 'data-aos-delay': '200' })}
           >
             Menu
           </Button>

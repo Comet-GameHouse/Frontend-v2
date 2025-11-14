@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from '@components/ui/Button'
 import { Card } from '@components/ui/Card'
+import { useAOS } from '@hooks'
 
 type Friend = {
   name: string
@@ -17,6 +18,7 @@ type Invite = {
 }
 
 function FriendsPage() {
+  const getAOSProps = useAOS()
   const friends: Friend[] = useMemo(
     () => [
       { name: 'NovaStrike', status: 'Online', game: 'Nebula Showdown' },
@@ -35,7 +37,7 @@ function FriendsPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <Card variant="void" className="space-y-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay="75">
+      <Card variant="void" className="space-y-3" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '75' })}>
         <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="text-lg font-semibold text-white">Invite friends</h2>
@@ -54,7 +56,7 @@ function FriendsPage() {
         </header>
       </Card>
 
-      <Card variant="glass" className="space-y-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay="100">
+      <Card variant="glass" className="space-y-3" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '100' })}>
         <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <h2 className="text-lg font-semibold text-white">Active invitations</h2>
           <Button variant="primary" rightIcon="arrow-right" onClick={() => window.open('/support', '_self')}>
@@ -63,7 +65,7 @@ function FriendsPage() {
         </header>
         <div className="grid gap-3 md:grid-cols-2">
           {invites.map((invite, idx) => (
-            <Card key={invite.squad} variant="void" className="space-y-2" data-aos="fade-up" data-aos-duration="300" data-aos-delay={String(150 + idx * 50)}>
+            <Card key={invite.squad} variant="void" className="space-y-2" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(150 + idx * 50) })}>
               <p className="text-sm font-semibold text-white">{invite.squad}</p>
               <p className="text-xs uppercase tracking-[0.3em] text-cyan-200">{invite.mode}</p>
               <div className="flex items-center justify-between text-sm text-slate-400">
@@ -77,7 +79,7 @@ function FriendsPage() {
         </div>
       </Card>
 
-      <Card variant="void" className="space-y-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay="250">
+      <Card variant="void" className="space-y-3" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '250' })}>
         <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <h2 className="text-lg font-semibold text-white">Friends roster</h2>
           <Button variant="outline" leftIcon="user-plus" onClick={() => window.open('/support', '_self')}>
@@ -86,7 +88,7 @@ function FriendsPage() {
         </header>
         <ul className="space-y-2">
           {friends.map((friend, idx) => (
-            <li key={friend.name} className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-4 py-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay={String(300 + idx * 50)}>
+            <li key={friend.name} className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-4 py-3" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(300 + idx * 50) })}>
               <div>
                 <p className="font-semibold text-white">{friend.name}</p>
                 <p className="text-xs text-slate-400">{friend.game}</p>
@@ -102,11 +104,11 @@ function FriendsPage() {
         </ul>
       </Card>
 
-      <Card variant="void" className="space-y-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay="400">
+      <Card variant="void" className="space-y-3" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '400' })}>
         <h2 className="text-lg font-semibold text-white">Voice lounges</h2>
         <div className="grid gap-3 sm:grid-cols-3">
           {['LFG • Control', 'Scrim Room A', 'Raid Strategy'].map((channel, idx) => (
-            <div key={channel} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-300" data-aos="fade-up" data-aos-duration="300" data-aos-delay={String(450 + idx * 50)}>
+            <div key={channel} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-300" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(450 + idx * 50) })}>
               {channel}
             </div>
           ))}

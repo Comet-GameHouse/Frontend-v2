@@ -1,6 +1,7 @@
 import { Card } from '@components/ui/Card'
 import Button from '@components/ui/Button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useAOS } from '@hooks'
 
 const DISCORD_INVITE = 'https://discord.gg/cometgamehouse'
 
@@ -49,9 +50,11 @@ const COMMUNITY_BEATS = [
 ]
 
 function CommunityPage() {
+  const getAOSProps = useAOS()
+  
   return (
     <>
-      <Card variant="gradient" className="space-y-6" data-aos="fade-up" data-aos-duration="300" data-aos-delay="150">
+      <Card variant="gradient" className="space-y-6" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '150' })}>
         <header className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3 text-2xl font-semibold text-white">
             <FontAwesomeIcon icon={['fab', 'discord']} className="h-8 w-8" />
@@ -78,7 +81,7 @@ function CommunityPage() {
 
           <div className="grid gap-5 sm:grid-cols-2">
             {CHANNEL_SECTIONS.map((section, idx) => (
-              <div key={section.label} data-aos="fade-up" data-aos-duration="300" data-aos-delay={String(210 + idx * 60)}>
+              <div key={section.label} {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(210 + idx * 60) })}>
                 <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-300">{section.label}</p>
                 <ul className="mt-3 space-y-2">
                   {section.channels.map((channel) => (
@@ -102,9 +105,9 @@ function CommunityPage() {
         </div>
       </Card>
 
-      <section className="grid gap-4 sm:grid-cols-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay="350">
+      <section className="grid gap-4 sm:grid-cols-3" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '350' })}>
         {CREWS.map(({ name, focus, members }, idx) => (
-          <Card key={name} variant="glass" className="space-y-2" data-aos="fade-up" data-aos-duration="300" data-aos-delay={String(350 + idx * 50)}>
+          <Card key={name} variant="glass" className="space-y-2" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(350 + idx * 50) })}>
             <p className="text-lg font-semibold text-white">{name}</p>
             <p className="text-sm text-slate-300">{focus}</p>
             <p className="text-xs text-cyan-200">{members}</p>
@@ -112,11 +115,11 @@ function CommunityPage() {
         ))}
       </section>
 
-      <Card variant="void" className="space-y-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay="500">
+      <Card variant="void" className="space-y-3" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '500' })}>
         <h2 className="text-lg font-semibold text-white">Upcoming community beats</h2>
         <ul className="space-y-3 text-sm text-slate-300">
           {COMMUNITY_BEATS.map(({ title, detail, prizeCoins }, idx) => (
-            <li key={title} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay={String(550 + idx * 50)}>
+            <li key={title} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(550 + idx * 50) })}>
               <p className="font-semibold text-white">{title}</p>
               <p className="text-xs text-slate-400">
                 {detail}

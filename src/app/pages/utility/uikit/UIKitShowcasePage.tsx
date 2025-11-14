@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Paper, Select } from '@components'
-import { useNotifications } from '@hooks'
+import { useNotifications, useAOS } from '@hooks'
 
 const buttonVariants = [
   'primary',
@@ -26,6 +26,7 @@ const selectOptions = [
 
 function UIKitShowcasePage() {
   const { notify } = useNotifications()
+  const getAOSProps = useAOS()
 
   const handleNotify = useMemo(
     () => () =>
@@ -115,10 +116,9 @@ function UIKitShowcasePage() {
               <Select
                 variant={variant}
                 label="Choose arena"
-                options={selectOptions}
+                options={[...selectOptions]}
                 defaultValue=""
-                data-aos="fade-up"
-                data-aos-duration="300"
+                {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300' })}
               />
               <Select
                 variant={variant}
@@ -129,9 +129,7 @@ function UIKitShowcasePage() {
                   { label: 'All queues busy', value: 'busy', disabled: true },
                 ]}
                 defaultValue=""
-                data-aos="fade-up"
-                data-aos-duration="300"
-                data-aos-delay="150"
+                {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '150' })}
               />
             </Paper>
           ))}

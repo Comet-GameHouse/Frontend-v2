@@ -8,8 +8,19 @@ type ProtectedRouteProps = {
 }
 
 function ProtectedRoute({ redirectTo = '/auth/signin', allowedRoles }: ProtectedRouteProps) {
-  const { isAuthenticated, user } = useAuth()
+  const { isAuthenticated, user, isLoading } = useAuth()
   const location = useLocation()
+
+  // Wait for auth check to complete
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="text-center">
+          <p className="text-slate-400">Loading...</p>
+        </div>
+      </div>
+    )
+  }
 
   if (!isAuthenticated) {
     return <Navigate to={redirectTo} replace state={{ from: location }} />

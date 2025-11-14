@@ -1,4 +1,5 @@
 import { Card } from '@components/ui/Card'
+import { useAOS } from '@hooks'
 
 const VALUES = [
   { title: 'Player First', copy: 'Balance passes, matchmaking tuning, and roadmap votes come from the community.' },
@@ -12,21 +13,23 @@ const MILESTONES = [
 ]
 
 function AboutUsPage() {
+  const getAOSProps = useAOS()
+  
   return (
     <>
-      <section className="grid gap-4 sm:grid-cols-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay="150">
+      <section className="grid gap-4 sm:grid-cols-3" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '150' })}>
         {VALUES.map(({ title, copy }, idx) => (
-          <Card key={title} variant="glass" className="space-y-2" data-aos="fade-up" data-aos-duration="300" data-aos-delay={String(150 + idx * 50)}>
+          <Card key={title} variant="glass" className="space-y-2" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(150 + idx * 50) })}>
             <p className="text-lg font-semibold text-white">{title}</p>
             <p className="text-sm text-slate-300">{copy}</p>
           </Card>
         ))}
       </section>
-      <Card variant="void" className="space-y-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay="300">
+      <Card variant="void" className="space-y-3" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '300' })}>
         <h2 className="text-lg font-semibold text-white">Milestones</h2>
         <ul className="space-y-3 text-sm text-slate-300">
           {MILESTONES.map(({ year, event }, idx) => (
-            <li key={year} className="flex items-start gap-3" data-aos="fade-up" data-aos-duration="300" data-aos-delay={String(350 + idx * 50)}>
+            <li key={year} className="flex items-start gap-3" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(350 + idx * 50) })}>
               <span className="mt-0.5 text-xs font-semibold uppercase text-cyan-200">{year}</span>
               <span>{event}</span>
             </li>

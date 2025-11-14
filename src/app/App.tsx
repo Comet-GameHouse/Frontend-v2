@@ -14,6 +14,24 @@ function App() {
     })
   }, [])
 
+  // Request browser notification permission on app load
+  useEffect(() => {
+    if ('Notification' in window && Notification.permission === 'default') {
+      // Show a prompt after a short delay to not interrupt initial load
+      const timer = setTimeout(() => {
+        Notification.requestPermission().then((permission) => {
+          if (permission === 'granted') {
+            console.log('Browser notifications enabled')
+          } else {
+            console.log('Browser notifications denied')
+          }
+        })
+      }, 2000)
+
+      return () => clearTimeout(timer)
+    }
+  }, [])
+
   return (
     <AuthProvider>
       <NotificationProvider>

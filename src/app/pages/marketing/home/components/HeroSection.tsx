@@ -1,6 +1,7 @@
 import type { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from '@components/ui/Button'
+import { useAOS } from '@hooks'
 
 type HeroCta = { label: string; icon: IconProp; to: string; variant: 'primary' | 'outline' }
 
@@ -10,8 +11,10 @@ type HeroSectionProps = {
 }
 
 function HeroSection({ ctas, onNavigate }: HeroSectionProps) {
+  const getAOSProps = useAOS()
+  
   return (
-    <section className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-6 pt-20 text-center" data-aos="fade-up" data-aos-duration="300">
+    <section className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-6 pt-20 text-center" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300' })}>
       <span className="inline-flex items-center gap-2 rounded-full border border-cyan-500/40 bg-cyan-500/10 px-4 py-1 text-sm text-cyan-200">
         <FontAwesomeIcon icon="meteor" className="h-4 w-4" /> Join 50,000+ players nightly
       </span>
@@ -23,7 +26,7 @@ function HeroSection({ ctas, onNavigate }: HeroSectionProps) {
       </p>
       <div className="flex flex-wrap justify-center gap-4">
         {ctas.map((cta, idx) => (
-          <Button key={cta.label} variant={cta.variant} size="lg" rightIcon={cta.icon} onClick={() => onNavigate(cta.to)} data-aos="fade-up" data-aos-duration="300" data-aos-delay={String(150 + idx * 50)}>
+          <Button key={cta.label} variant={cta.variant} size="lg" rightIcon={cta.icon} onClick={() => onNavigate(cta.to)} {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(150 + idx * 50) })}>
             {cta.label}
           </Button>
         ))}

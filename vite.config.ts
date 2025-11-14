@@ -20,7 +20,8 @@ export default defineConfig({
       '@lib': fileURLToPath(new URL('./src/app/lib', import.meta.url)),
       '@data': fileURLToPath(new URL('./src/app/data', import.meta.url)),
       '@styles': fileURLToPath(new URL('./src/app/styles', import.meta.url)),
-      '@app-types': fileURLToPath(new URL('./src/app/app-types', import.meta.url))
+      '@app-types': fileURLToPath(new URL('./src/app/app-types', import.meta.url)),
+      '@services': fileURLToPath(new URL('./src/app/services', import.meta.url))
     }
   }
 })

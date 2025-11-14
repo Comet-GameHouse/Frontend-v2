@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { Button, Input } from '@components'
+import { useAOS } from '@hooks'
 
 type SupportField = {
   name: string
@@ -19,6 +20,7 @@ type SupportFormProps = {
 
 function SupportForm({ fields, submitLabel, successMessage, ...formProps }: SupportFormProps) {
   const [submitted, setSubmitted] = useState(false)
+  const getAOSProps = useAOS()
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -31,8 +33,7 @@ function SupportForm({ fields, submitLabel, successMessage, ...formProps }: Supp
     <form
       className="space-y-4"
       onSubmit={handleSubmit}
-      data-aos="fade-up"
-      data-aos-duration="300"
+      {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300' })}
       {...formProps}
     >
       {fields.map((field, index) =>
@@ -40,9 +41,7 @@ function SupportForm({ fields, submitLabel, successMessage, ...formProps }: Supp
           <label
             key={field.name}
             className="flex flex-col gap-2 text-sm text-slate-300"
-            data-aos="fade-up"
-            data-aos-duration="300"
-            data-aos-delay={String(150 + index * 50)}
+            {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(150 + index * 50) })}
           >
             <span className="text-xs font-semibold text-slate-300">{field.label}</span>
             <textarea
@@ -55,9 +54,7 @@ function SupportForm({ fields, submitLabel, successMessage, ...formProps }: Supp
         ) : (
           <div
             key={field.name}
-            data-aos="fade-up"
-            data-aos-duration="300"
-            data-aos-delay={String(150 + index * 50)}
+            {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(150 + index * 50) })}
           >
             <Input
               name={field.name}
@@ -71,7 +68,7 @@ function SupportForm({ fields, submitLabel, successMessage, ...formProps }: Supp
         ),
       )}
 
-      <div data-aos="fade-up" data-aos-duration="300" data-aos-delay={String(150 + fields.length * 50)}>
+      <div {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(150 + fields.length * 50) })}>
         <Button type="submit" variant="primary" block rightIcon="arrow-right">
           {submitLabel}
         </Button>
@@ -80,9 +77,7 @@ function SupportForm({ fields, submitLabel, successMessage, ...formProps }: Supp
       {submitted ? (
         <p
           className="text-xs text-emerald-300"
-          data-aos="fade-up"
-          data-aos-duration="300"
-          data-aos-delay={String(150 + (fields.length + 1) * 50)}
+          {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(150 + (fields.length + 1) * 50) })}
         >
           {successMessage}
         </p>

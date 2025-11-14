@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { Card } from '@components'
+import { useAOS } from '@hooks'
 
 const SERVICES = [
   {
@@ -124,19 +125,18 @@ function StatusHeatmap({ serviceKey, data, serviceName }: { serviceKey: 'api' | 
 
 function StatusPage() {
   const history = useMemo(() => generateHistory(), [])
+  const getAOSProps = useAOS()
 
   return (
     <div className="space-y-6">
-      <Card variant="glass" className="space-y-4" data-aos="fade-up" data-aos-duration="300" data-aos-delay="150">
+      <Card variant="glass" className="space-y-4" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '150' })}>
         <h2 className="text-lg font-semibold text-white">Live Service Health</h2>
         <ul className="space-y-3 text-sm text-slate-300">
           {SERVICES.map((service, index) => (
             <li
               key={service.name}
               className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3"
-              data-aos="fade-up"
-              data-aos-duration="300"
-              data-aos-delay={String(200 + index * 50)}
+              {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(200 + index * 50) })}
             >
               <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-[0.3em] text-cyan-200">
                 <span>{service.name}</span>
@@ -149,7 +149,7 @@ function StatusPage() {
         <p className="text-xs text-slate-500">Last updated {new Date().toLocaleTimeString()}.</p>
       </Card>
 
-      <Card variant="void" className="space-y-6" data-aos="fade-up" data-aos-duration="300" data-aos-delay="250">
+      <Card variant="void" className="space-y-6" {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': '250' })}>
         <header className="flex flex-col gap-1">
           <h3 className="text-base font-semibold text-white">90-Day Status History</h3>
           <p className="text-xs text-slate-400">Heatmap visualization showing daily health for each service. Hover over squares for details.</p>

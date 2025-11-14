@@ -1,5 +1,6 @@
 import Button from '@components/ui/Button'
 import useSiteHeaderContext from './useSiteHeaderContext'
+import { useAOS } from '@hooks'
 
 type SiteHeaderProfileMenuProps = {
   formattedCoins: string
@@ -7,6 +8,7 @@ type SiteHeaderProfileMenuProps = {
 
 function SiteHeaderProfileMenu({ formattedCoins }: SiteHeaderProfileMenuProps) {
   const { displayName, userEmail, userRole, userInitial, profileMenu, actions } = useSiteHeaderContext()
+  const getAOSProps = useAOS()
 
   if (!profileMenu.isOpen) return null
 
@@ -14,9 +16,7 @@ function SiteHeaderProfileMenu({ formattedCoins }: SiteHeaderProfileMenuProps) {
     <div
       ref={profileMenu.menuRef}
       className="absolute right-0 top-[calc(100%+0.75rem)] w-72 rounded-3xl border border-slate-800/80 bg-slate-950/95 p-5 shadow-[0_24px_60px_-40px_rgba(56,189,248,0.65)] backdrop-blur-xl"
-      data-aos="fade-down"
-      data-aos-duration="300"
-      data-aos-delay="250"
+      {...getAOSProps({ 'data-aos': 'fade-down', 'data-aos-duration': '300', 'data-aos-delay': '250' })}
     >
       <div className="flex items-start gap-3">
         <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-cyan-400/30 bg-cyan-400/10 text-lg font-semibold text-cyan-100">

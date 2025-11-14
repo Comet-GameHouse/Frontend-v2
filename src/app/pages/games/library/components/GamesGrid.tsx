@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from '@components/ui/Button'
 import { Card } from '@components/ui/Card'
 import type { GameLibraryEntry } from '../libraryData'
+import { useAOS } from '@hooks'
 
 type GamesGridProps = {
   games: GameLibraryEntry[]
@@ -9,6 +10,8 @@ type GamesGridProps = {
 }
 
 function GamesGrid({ games, onSelect }: GamesGridProps) {
+  const getAOSProps = useAOS()
+  
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {games.map((game, idx) => (
@@ -16,9 +19,7 @@ function GamesGrid({ games, onSelect }: GamesGridProps) {
           key={game.slug}
           variant="glass"
           className="space-y-4 border border-slate-800/60 bg-slate-900/60"
-          data-aos="fade-up"
-          data-aos-duration="300"
-          data-aos-delay={String(200 + idx * 50)}
+          {...getAOSProps({ 'data-aos': 'fade-up', 'data-aos-duration': '300', 'data-aos-delay': String(200 + idx * 50) })}
         >
           <div className={`flex h-40 flex-col justify-between rounded-xl border bg-gradient-to-br ${game.gradient} p-5 text-white`}>
             <div className="flex items-center gap-3 text-lg font-semibold">
